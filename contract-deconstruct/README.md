@@ -57,17 +57,3 @@ npm run sync:events
 ## Learning resources
 
 - [DefectChecker](https://xin-xia.github.io/publication/tse211.pdf)
-
-## Todo
-
-[] Parse detected functions and events and group them by hex
-
-[] Add more sources for signatures (currently only 4byte.directory)
-
-[] Add support for:
-
-    - State variables
-    - Function returns values
-    - Payable
-    - Fallback/Receive existence
-    - struct definitions
