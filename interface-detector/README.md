@@ -42,9 +42,3 @@ It detects:
   }
 }
 ```
-
-## Todo
-
-[] Add tests
-
-
