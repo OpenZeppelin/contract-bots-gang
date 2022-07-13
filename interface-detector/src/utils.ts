@@ -10,13 +10,15 @@ export function filterRepeatedAlerts(alerts: Alert[]): any[] {
 
 export async function getLatestAlerts(blockNumber: number, botId: string) {
     var parsedResponse: AlertsResponse;
+
+    var delayInBlocks: number = 240;
   
     var input: AlertQueryOptions = {
         "first": 50,
         "botIds": [botId],
         "blockNumberRange": {
-          startBlockNumber: blockNumber-40, // Scan 10 minutes the past to get time the API to index latest data
-          endBlockNumber: blockNumber-39
+          startBlockNumber: blockNumber-delayInBlocks, // Scan 10 minutes the past to get time the API to index latest data
+          endBlockNumber: blockNumber-delayInBlocks
         },
         "chainId": 1
     }
