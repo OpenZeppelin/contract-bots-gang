@@ -1,4 +1,4 @@
-# Interface detector
+# :male_detective: InterfaceDetector
 
 - Repo: https://github.com/OpenZeppelin/contract-bots-gang/blob/master/interface-detector
 
