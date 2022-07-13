@@ -156,7 +156,9 @@ const handleBlock: HandleBlock = async (blockEvent: BlockEvent) => {
       var knownEvents = JSON.parse(alert.metadata.events);
 
       var results = analyzeInterface(knownEvents, knownFunctions);
+
       results.forEach(record => {
+
         if(record.status) {
           var confidence: number = 0;
 

@@ -15,14 +15,15 @@ export async function getLatestAlerts(blockNumber: number, botId: string) {
         "first": 50,
         "botIds": [botId],
         "blockNumberRange": {
-          startBlockNumber: blockNumber-1,
-          endBlockNumber: blockNumber
+          startBlockNumber: blockNumber-40, // Scan 10 minutes the past to get time the API to index latest data
+          endBlockNumber: blockNumber-39
         },
         "chainId": 1
     }
   
     var response: RawGraphqlAlertResponse = await axios.post(FORTA_GRAPHQL_URL, getQueryFromAlertOptions(input), {headers: {"content-type": "application/json"}});
     parsedResponse = response.data.data.alerts;
+
     return parsedResponse;
 }
 
