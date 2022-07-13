@@ -169,11 +169,11 @@ const handleBlock: HandleBlock = async (blockEvent: BlockEvent) => {
           })
   
           confidence /= (record.fmatches.length + record.ematches.length)
-  
+
           findings.push(
             Finding.fromObject({
               name: `${record.type} interface detected`,
-              description: `Contract ${alert.metadata.contractAddress} adheres ${record.type} interface`,
+              description: `Contract ${alert.metadata.contractAddress.substring(0,10)} adheres to ${record.type} interface`,
               alertId: `${record.type} interface detected`,
               severity: FindingSeverity.Info,
               type: FindingType.Info,
