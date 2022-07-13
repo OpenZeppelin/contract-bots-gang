@@ -6,14 +6,14 @@ This agent will detect any new contract deploy.
 
 Will take the bytecode and gives as output:
 
-- Matched function signatures and events with [bytes4.directory](https://www.4byte.directory/)
+- Matched function signatures and events with [4byte.directory](https://www.4byte.directory/)
 - The remaining unknown function and event signatures
 - The disassembled opcodes list
 - The transaction hash
 - The newly deployed contract address
 - Optionally it can return output of [Yasold analyzer](https://github.com/ajlopez/Yasold)
 
-## Sync with 4byte directory
+## Sync with [4byte.directory](https://www.4byte.directory/)
 
 The scripts will catch-up automatically with latest saved signatures and missing ones, adding them in the corresponding files in `scripts/static` directory.
 
