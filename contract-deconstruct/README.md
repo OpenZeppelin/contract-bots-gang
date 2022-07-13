@@ -1,4 +1,4 @@
-# ContractDeconstruct
+# :hammer_and_pick: ContractDeconstruct
 
 - Repo: https://github.com/OpenZeppelin/contract-bots-gang/blob/master/contract-deconstruct
 
