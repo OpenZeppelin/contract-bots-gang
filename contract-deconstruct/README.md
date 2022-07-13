@@ -1,6 +1,6 @@
 # ContractDeconstruct
 
-- Repo: https://github.com/xaler5/contract-inspector-gang/contract-deconstruct
+- Repo: https://github.com/OpenZeppelin/contract-bots-gang/blob/master/contract-deconstruct
 
 This agent will detect any new contract deploy.
 
@@ -61,11 +61,17 @@ npm run sync:events
 ## Todo
 
 [] Add tests
+
 [] Create github actions to sync with functions and events once a month
+
 [] Support gnosis multisig executions
+
 [] Parse detected functions and events and group them by hex
+
 [] Add more sources for signatures (currently only 4byte.directory)
+
 [] Add support for:
+
     - State variables
     - Function returns values
     - Payable

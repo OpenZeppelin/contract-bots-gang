@@ -1,6 +1,6 @@
 # Interface detector
 
-- Repo: https://github.com/xaler5/contract-inspector-gang/contract-deconstruct
+- Repo: https://github.com/OpenZeppelin/contract-bots-gang/blob/master/interface-detector
 
 This agent uses [`ContractInspector`](https://explorer.forta.network/agent/0x9703bb3bf08bc89e6d0fd273fa995c32f75e8998c314bafdafcfe2491678f083) alerts and it automatically detects for interfaces adherences and contract type.
 
