@@ -61,6 +61,7 @@ npm run sync:events
 ## Todo
 
 [] Add tests
+[] Create github actions to sync with functions and events once a month
 [] Support gnosis multisig executions
 [] Parse detected functions and events and group them by hex
 [] Add more sources for signatures (currently only 4byte.directory)
