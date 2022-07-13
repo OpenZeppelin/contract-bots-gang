@@ -79,4 +79,4 @@ The current output is an alert of the form
 }
 ```
 
-## Hunters
+## :boom: Hunters
