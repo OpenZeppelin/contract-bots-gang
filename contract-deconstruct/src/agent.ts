@@ -117,18 +117,8 @@ const handleTransactionInternal = async (
   };
 };
 
-const hasBeenProcessed = (transactionHash: string) => {
-   return processedTransactions.get(transactionHash)
-}
-
-const process = (transactionHash: string, value: boolean) => {
-  processedTransactions.set(transactionHash, value);
-}
-
 const runTx = async (txEvent: TransactionEvent) => {
     let transaction = txEvent.transaction;
-    if(hasBeenProcessed(transaction.hash)) return;
-    process(transaction.hash, true);
     if(transaction.to == null || transaction.to == '0x0000000000000000000000000000000000000000') {
       if(!ethProvider) ethProvider = getEthersProvider();
       const receipt = await ethProvider.getTransactionReceipt(transaction.hash);
