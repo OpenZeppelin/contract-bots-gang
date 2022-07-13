@@ -53,7 +53,7 @@ About the new contract deployed it detects:
 - If it adheres to [ERC20](https://eips.ethereum.org/EIPS/eip-20) interface
 - If it adheres to [ERC721](https://eips.ethereum.org/EIPS/eip-721) interface
 - If it is an [AccessControl](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/AccessControl.sol) contract
-- If it has upgradebility contract by exposing `upgradeTo` and `upgradeToAndCall` functions. This can be either a proxy (either ERC1978 or not) or an UUPS implementation contract. 
+- If it has upgradebility contract by exposing `upgradeTo` and `upgradeToAndCall` functions. This can be either a proxy (either `ERC1967` or not) or an UUPS implementation contract. 
 - If it is an [UUPS](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/proxy/utils/UUPSUpgradeable.sol) implementation logic contract
 - If it adheres to [ERC1967](https://eips.ethereum.org/EIPS/eip-1967) interface
 - If it is a [TransparentUpgradeableProxy](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/proxy/transparent/TransparentUpgradeableProxy.sol) contract 
