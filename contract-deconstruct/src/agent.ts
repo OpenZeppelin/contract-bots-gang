@@ -8,17 +8,16 @@ import {
 } from "forta-agent";
 import {disassemble} from '@ethersproject/asm';
 import * as dotenv from "dotenv";
-import * as functions from "./static/functions.json"
-import * as events from "./static/events.json"
+import * as importedFunctions from "./static/functions.json"
+import * as importedEvents from "./static/events.json"
+import { deflate } from 'node:zlib'
+import { promisify } from 'node:util'
 
 dotenv.config();
-const yasold = require('yasold');
 
+//const yasold = require('yasold');
+const asyncDeflate = promisify(deflate);
 var ethProvider: ethers.providers.JsonRpcProvider;
-let findings: Finding[] = [];
-var eventSignatures: any = events;
-var functionSignatures: any = functions;
-var processedTransactions: Map<string, boolean> = new Map();
 
 const disassembleBytecode = async(contractAddress: string) => {
   var deployedBytecode;
@@ -31,7 +30,8 @@ const disassembleBytecode = async(contractAddress: string) => {
   
   if(!deployedBytecode) return null;
 
-  const analysis = yasold.analyze(deployedBytecode)
+  //const analysis = yasold.analyze(deployedBytecode)
+  var analysis = ''
 
   var disassembled = disassemble(deployedBytecode);
   var byte4DirectoryFunctions: string[] = [];
@@ -54,6 +54,7 @@ const getFunctions = async (byte4DirectoryFunctions: string[]) => {
   var newFunction: object;
   var functions: object[] = [];
   var unknownFunctions: string[] = [];
+  var functionSignatures: any = importedFunctions;
 
   for(var j = 0; j<byte4DirectoryFunctions.length; j++) {
     var results = functionSignatures[`${byte4DirectoryFunctions[j]}`];
@@ -78,6 +79,7 @@ const getEvents = async (byte4DirectoryEvents: string[]) => {
   var newEvent: object;
   var events: object[] = [];
   var unkownEvents: string[] = [];
+  var eventSignatures: any = importedEvents;
 
   for(var l = 0; l<byte4DirectoryEvents.length; l++) {
     var results = eventSignatures[`${byte4DirectoryEvents[l]}`];
@@ -112,47 +114,51 @@ const handleTransactionInternal = async (
     events: getEventsResult.events, 
     unkownEvents: getEventsResult.unkownEvents, 
     disassembled: getDisassembleResult.disassembled, 
-    analysis: getDisassembleResult.analysis,
+    //analysis: getDisassembleResult.analysis,
     bytecode: getDisassembleResult.deployedBytecode
   };
 };
 
 const runTx = async (txEvent: TransactionEvent) => {
-    let transaction = txEvent.transaction;
-    if(transaction.to == null || transaction.to == '0x0000000000000000000000000000000000000000') {
-      if(!ethProvider) ethProvider = getEthersProvider();
-      const receipt = await ethProvider.getTransactionReceipt(transaction.hash);
-      if(!receipt) return;
-      const contractAddressFromReceipt = receipt.contractAddress;
-      if(receipt.status && contractAddressFromReceipt) {
-        const result = await handleTransactionInternal(contractAddressFromReceipt)
-        findings.push(
-            Finding.fromObject({
-              name: `CD-${new Date().getTime()}`,
-              description: `Contract deconstruct ${contractAddressFromReceipt.substring(0,10)}`,
-              alertId: `CD-${new Date().getTime()}`,
-              severity: FindingSeverity.Info,
-              type: FindingType.Info,
-              metadata: {
-                transaction: transaction.hash,
-                contractAddress: contractAddressFromReceipt,
-                functions: JSON.stringify(result.functions),
-                unknownFunctions: JSON.stringify(result.unknownFunctions),
-                events: JSON.stringify(result.events),
-                unknownEvents: JSON.stringify(result.unkownEvents),
-                bytecode: JSON.stringify(result.bytecode),
-                disassembled: JSON.stringify(result.disassembled),
-                //analysis: JSON.stringify(result.analysis)
-              },
-            })
-          );
-      }
-    };
+  let findings: Finding[] = [];
+
+  let transaction = txEvent.transaction;
+  if(transaction.to == null || transaction.to == '0x0000000000000000000000000000000000000000') {
+    if(!ethProvider) ethProvider = getEthersProvider();
+    const receipt = await ethProvider.getTransactionReceipt(transaction.hash);
+    if(!receipt) return;
+    const contractAddressFromReceipt = receipt.contractAddress;
+    if(receipt.status && contractAddressFromReceipt) {
+      const result = await handleTransactionInternal(contractAddressFromReceipt)
+      var compressedDisassembled: any = await asyncDeflate(JSON.stringify(result.disassembled));
+      compressedDisassembled = compressedDisassembled.toString('base64')
+      findings.push(
+          Finding.fromObject({
+            name: `CD-${new Date().getTime()}`,
+            description: `Contract deconstruct ${contractAddressFromReceipt.substring(0,10)}`,
+            alertId: `CD-${new Date().getTime()}`,
+            severity: FindingSeverity.Info,
+            type: FindingType.Info,
+            metadata: {
+              transaction: transaction.hash,
+              contractAddress: contractAddressFromReceipt,
+              functions: JSON.stringify(result.functions),
+              unknownFunctions: JSON.stringify(result.unknownFunctions),
+              events: JSON.stringify(result.events),
+              unknownEvents: JSON.stringify(result.unkownEvents),
+              bytecode: JSON.stringify(result.bytecode),
+              disassembled: compressedDisassembled,
+              //analysis: JSON.stringify(result.analysis)
+            },
+          })
+        );
+    }
+  };
+  return findings;
 }
 
 const handleTransaction = async (txEvent: TransactionEvent) => {
-  await runTx(txEvent);
-  return findings;
+  return await runTx(txEvent);
 }
 
 export default {
