@@ -29,13 +29,14 @@ It detects:
 
 ```
 {
-  "name": "XXX interface detected", // XXX is the interface name detected
-  "description": "Contract XXX adheres YYY interface", // XXX is contract address, YYY the detected interface
-  "alertId": "XXX interface detected", // XXX is the interface name detected
+  "name": `ID-XXX`, // XXX is the timestamp
+  "description": `Contract {contractAddress} adheres to some interfaces`
+  "alertId": `ID-XXX`, // XXX is the timestamp
   "protocol": "ethereum",
   "severity": "Info",
   "type": "Info",
   "metadata": {
+    "types": // A list of supported interfaces
     "contractAddress": , // the contract address
     "overallConfidence": , // confidence level, many function signatures can correspond to different actual functions
     "extras": "{}" // extra fields

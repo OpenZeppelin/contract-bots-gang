@@ -7,6 +7,7 @@ import {
 } from "forta-agent";
 
 import {
+  condensateResults,
   filterRepeatedAlerts,
   getLatestAlerts,
   parseData
@@ -157,37 +158,38 @@ const handleBlock: HandleBlock = async (blockEvent: BlockEvent) => {
 
       var results = analyzeInterface(knownEvents, knownFunctions);
 
-      results.forEach(record => {
+      //Condensate results
+      var condensatedResults: any = condensateResults(results);
+      if(condensatedResults.types.length == 0) return findings;
 
-        if(record.status) {
-          var confidence: number = 0;
+      var confidence: number = 0;
 
-          record.fmatches.forEach((match: { confidence: number; }) => {
-            confidence += match.confidence;
-          })
-  
-          record.ematches.forEach((match: { confidence: number; }) => {
-            confidence += match.confidence;
-          })
-  
-          confidence /= (record.fmatches.length + record.ematches.length)
-
-          findings.push(
-            Finding.fromObject({
-              name: `${record.type} interface detected`,
-              description: `Contract ${alert.metadata.contractAddress.substring(0,10)} adheres to ${record.type} interface`,
-              alertId: `${record.type} interface detected`,
-              severity: FindingSeverity.Info,
-              type: FindingType.Info,
-              metadata: {
-                contractAddress: alert.metadata.contractAddress,
-                overallConfidence: `${confidence}%`,
-                extras: JSON.stringify(record.extras)
-              },
-            })
-          );
-        }
+      condensatedResults.fmatches.forEach((match: { confidence: number; }) => {
+        confidence += match.confidence;
       })
+
+      condensatedResults.ematches.forEach((match: { confidence: number; }) => {
+        confidence += match.confidence;
+      })
+
+      confidence /= (condensatedResults.fmatches.length + condensatedResults.ematches.length);
+
+      findings.push(
+        Finding.fromObject({
+          name: `ID-${new Date().getTime()}`,
+          description: `Contract ${alert.metadata.contractAddress.substring(0,10)} adheres to some interfaces`,
+          alertId: `ID-${new Date().getTime()}`,
+          severity: FindingSeverity.Info,
+          type: FindingType.Info,
+          metadata: {
+            types: JSON.stringify(condensatedResults.types),
+            contractAddress: alert.metadata.contractAddress,
+            overallConfidence: `${confidence}%`,
+            extras: JSON.stringify(condensatedResults.extras)
+          },
+        })
+      );
+
     });
   } catch(error: any) {
     console.log(error);

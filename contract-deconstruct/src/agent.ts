@@ -131,7 +131,11 @@ const runTx = async (txEvent: TransactionEvent) => {
     if(receipt.status && contractAddressFromReceipt) {
       const result = await handleTransactionInternal(contractAddressFromReceipt)
       var compressedDisassembled: any = await asyncDeflate(JSON.stringify(result.disassembled));
-      compressedDisassembled = compressedDisassembled.toString('base64')
+      compressedDisassembled = compressedDisassembled.toString('base64');
+
+      // var compressedAnalysis: any = await asyncDeflate(JSON.stringify(result.analysis))
+      // compressedAnalysis = compressedAnalysis.toString('base64');
+      
       findings.push(
           Finding.fromObject({
             name: `CD-${new Date().getTime()}`,
@@ -148,7 +152,7 @@ const runTx = async (txEvent: TransactionEvent) => {
               unknownEvents: JSON.stringify(result.unkownEvents),
               bytecode: JSON.stringify(result.bytecode),
               disassembled: compressedDisassembled,
-              //analysis: JSON.stringify(result.analysis)
+              //analysis: compressedAnalysis
             },
           })
         );

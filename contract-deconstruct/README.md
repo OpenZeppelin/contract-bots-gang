@@ -54,6 +54,42 @@ npm run sync:events
 }
 ```
 
+**NOTICE**: The `disassembled` and `analysis` fields in the metadata are compressed and Base64 encoded to reduce size. The [way they are compressed](./src/agent.ts#L133) is:
+
+```
+    import { deflate } from 'node:zlib'
+    import { promisify } from 'node:util'
+
+    const asyncDeflate = promisify(deflate);
+
+    var compressedDisassembled: any = await asyncDeflate(JSON.stringify(result.disassembled));
+    compressedDisassembled = compressedDisassembled.toString('base64');
+
+    var compressedAnalysis: any = await asyncDeflate(JSON.stringify(result.analysis))
+    compressedAnalysis = compressedAnalysis.toString('base64');
+```
+
+
+This means that a bot using these fields must first decompress. This can be done by adding this to your bot:
+
+```
+    import { unzip } from 'node:zlib'
+    import { promisify } from 'node:util'
+
+    const asyncUnzip = promisify(unzip);
+
+    /*.....*/
+
+    //Decode metadata
+    alerts.forEach(async singleAlert => {
+      var decodedDisassembled = await asyncUnzip(Buffer.from(singleAlert.metadata.disassembled, 'base64'));
+      singleAlert.metadata.disassembled = decodedDisassembled.toString();
+
+    var decodedAnalysis = await asyncUnzip(Buffer.from(singleAlert.metadata.analysis, 'base64'));
+      singleAlert.metadata.analysis = decodedAnalysis.toString();
+    })
+```
+
 ## Learning resources
 
 - [DefectChecker](https://xin-xia.github.io/publication/tse211.pdf)

@@ -1,6 +1,6 @@
 {
   "name": "interface-detector",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "It detects new contracts interfaces",
   "chainIds": [
     1

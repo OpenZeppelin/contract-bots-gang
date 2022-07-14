@@ -1,6 +1,6 @@
 {
   "name": "contract-deconstruct",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Inspect new contract deployments",
   "chainIds": [
     1

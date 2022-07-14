@@ -8,10 +8,51 @@ export function filterRepeatedAlerts(alerts: Alert[]): any[] {
     return filteredAlerts;
 }
 
+export function condensateResults(
+    results: {
+        status: boolean, 
+        type: string, 
+        fmatches: {text: string, hex: string, confidence: number}[] | null, 
+        ematches: {text: string, hex: string, confidence: number}[] | null,
+        extra: object
+    }[]
+) {
+    var interfaces: {type: string, fmatches: object[], ematches: object[], extra: object}[] = [];
+    
+    // Filter out interfaces that don't match
+    results.forEach(result => {
+        if(result.status) interfaces.push({
+            type: result.type, 
+            fmatches: result.fmatches ? result.fmatches : [], 
+            ematches: result.ematches ? result.ematches : [],
+            extra: result.extra
+        });
+    })
+
+    // Consolidate
+    var types: string[] = [];
+    var fmatches: object[] = [];
+    var ematches: object[] = [];
+    var extras = {};
+    interfaces.forEach(element => {
+        types.push(element.type);
+        fmatches = fmatches.concat(element.fmatches);
+        ematches = ematches.concat(element.ematches);
+        extras = { ...element.extra }
+    })
+
+    return {
+        types,
+        fmatches,
+        ematches,
+        extras
+    }
+}
+
 export async function getLatestAlerts(blockNumber: number, botId: string) {
     var parsedResponse: AlertsResponse;
 
-    var delayInBlocks: number = 240;
+    var delayInBlocks: number = 40;
   
     var input: AlertQueryOptions = {
         "first": 50,
