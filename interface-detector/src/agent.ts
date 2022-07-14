@@ -22,7 +22,8 @@ import {
   isItUUPS,
   isItERC1967,
   isItProxyAdmin,
-  isItTransparentUpgradeableProxyPattern
+  isItTransparentUpgradeableProxyPattern,
+  isItInitializable
 } from './inspectors'
 
 const analyzeInterface = (events: any[], functions: any[]) => {
@@ -137,6 +138,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
     }
   );
 
+  var {result, functionmatches, } = isItInitializable(parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'Initializable', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: null,
+      extras: {}
+    }
+  );
+
   return observationResults;
 }
 
@@ -160,6 +173,7 @@ const handleBlock: HandleBlock = async (blockEvent: BlockEvent) => {
 
       //Condensate results
       var condensatedResults: any = condensateResults(results);
+
       if(condensatedResults.types.length == 0) return findings;
 
       var confidence: number = 0;
@@ -177,13 +191,15 @@ const handleBlock: HandleBlock = async (blockEvent: BlockEvent) => {
       findings.push(
         Finding.fromObject({
           name: `ID-${new Date().getTime()}`,
-          description: `Contract ${alert.metadata.contractAddress.substring(0,10)} adheres to some interfaces`,
+          description: `${alert.metadata.contractAddress.substring(0,10)} adheres to ${JSON.stringify(condensatedResults.types)}`,
           alertId: `ID-${new Date().getTime()}`,
           severity: FindingSeverity.Info,
           type: FindingType.Info,
           metadata: {
             types: JSON.stringify(condensatedResults.types),
             contractAddress: alert.metadata.contractAddress,
+            fmatches: JSON.stringify(condensatedResults.fmatches),
+            ematches: JSON.stringify(condensatedResults.ematches),
             overallConfidence: `${confidence}%`,
             extras: JSON.stringify(condensatedResults.extras)
           },

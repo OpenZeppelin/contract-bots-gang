@@ -282,7 +282,7 @@ export function isItTransparentUpgradeableProxyPattern(events: any[], functions:
 }
 
 export function isItProxyAdmin(events: any[], functions: any[]) {
-    // ProxyAdmin must be Ownable
+    // ProxyAdmin must be Ownable -> should it ?
 
     var functionsInInterface: any[] = [
         "getProxyImplementation(address)",
@@ -310,6 +310,29 @@ export function isItProxyAdmin(events: any[], functions: any[]) {
         result: true, 
         functionmatches: functionMatchesResults, 
         eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
+
+export function isItInitializable(functions: any[]) {
+    var initializerFunctions: any[] = [];
+    functions.forEach(element => {
+        element.texts.forEach((textArrayElement: string[]) => {
+            if(textArrayElement.includes('initialize')) initializerFunctions.push({
+                text: textArrayElement,
+                hex: element.hex,
+                confidence: (1/element.texts.length)*100
+            });
+        });
+    })
+
+    if(initializerFunctions.length > 0) return {
+        result: true, 
+        functionmatches: initializerFunctions,
+        eventmatches: null
     }; else return {
         result: false, 
         functionmatches: null, 
