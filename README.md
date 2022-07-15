@@ -2,6 +2,10 @@
 
 A collection of [Forta detection bots](https://docs.forta.network/en/latest/quickstart/) :robot: to automatically analyze, inspect, and detect bugs on newly deployed contracts. The repo contains subdirectories, one for each bot. The entire design is meant to be in three layers:
 
+## Live bots
+- [`ContractDeconstruct`](https://explorer.forta.network/agent/0x9703bb3bf08bc89e6d0fd273fa995c32f75e8998c314bafdafcfe2491678f083)
+- [`InterfaceDetector`](https://explorer.forta.network/agent/0xf75be156b17977784d5f4bfd7a2d3b06f412b7cb6bb71fdf79a75725bf7b01e9)
+
 - :hammer_and_pick: **Deconstruct bots**: 
 
 bots that scan newly deployed contracts, run inspections on the bytecode and spit out organized info to be processed later (function signatures, events, etc..). A first attempt is the `ContractDeconstruct` bot that you can find LIVE [here](https://explorer.forta.network/agent/0x9703bb3bf08bc89e6d0fd273fa995c32f75e8998c314bafdafcfe2491678f083). Take a look at alerts `metadata` to get an idea of what it spits out. Otherwise you can read the [README](https://github.com/OpenZeppelin/contract-bots-gang/tree/master/contract-deconstruct#contractdeconstruct). The bot uses [4byte.directory](https://www.4byte.directory/) database as a lookup table.  There are some scripts to run manually to sync up with latest database updates. If you want to know how to sync latest signatures, read [here](https://github.com/OpenZeppelin/contract-bots-gang/tree/master/contract-deconstruct#sync-with-4byte-directory).
