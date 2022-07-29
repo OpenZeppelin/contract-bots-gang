@@ -1,5 +1,6 @@
 import axios from "axios";
-import { Alert, AlertQueryOptions, AlertsResponse, FORTA_GRAPHQL_URL, getQueryFromAlertOptions, RawGraphqlAlertResponse } from "./interfaces";
+import { Alert } from "forta-agent/dist/sdk/alert";
+import { AlertQueryOptions, AlertsResponse, FORTA_GRAPHQL_URL, getQueryFromAlertOptions, RawGraphqlAlertResponse } from "forta-agent/dist/sdk/graphql/forta";
 
 export function filterRepeatedAlerts(alerts: Alert[]): any[] {
     var o: any = {};
