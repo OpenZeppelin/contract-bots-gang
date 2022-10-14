@@ -158,6 +158,8 @@ const runTx = async (txEvent: TransactionEvent) => {
         );
     }
   };
+
+  // if transaction contains CREATE2 execution OPCODE, take out address and take bytecode
   return findings;
 }
 
