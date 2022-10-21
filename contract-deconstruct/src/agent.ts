@@ -131,7 +131,7 @@ const runTx = async (txEvent: TransactionEvent) => {
     if(receipt.status && contractAddressFromReceipt) {
       const result = await handleTransactionInternal(contractAddressFromReceipt)
       var compressedDisassembled: any = await asyncDeflate(JSON.stringify(result.disassembled));
-      compressedDisassembled = compressedDisassembled.toString('base64');
+      compressedDisassembled = compressedDisassembled.toString('utf-8');
 
       // var compressedAnalysis: any = await asyncDeflate(JSON.stringify(result.analysis))
       // compressedAnalysis = compressedAnalysis.toString('base64');
