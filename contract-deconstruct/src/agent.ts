@@ -184,7 +184,7 @@ const runTx = async (
 
 const handleTransaction = async (txEvent: TransactionEvent) => {
   const contracts = await getCreatedContractsTX(txEvent);
-  if (contracts && contracts.length) {
+  if (contracts) {
     return await runTx(contracts);
   }
 };
