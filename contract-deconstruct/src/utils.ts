@@ -34,7 +34,6 @@ export async function getCreatedContractsTX(txEvent: TransactionEvent){
                           contractAddress: trace.result.address,
                           transaction: transaction.hash
                         });
-                        continue;
                       }
                 }
             }
