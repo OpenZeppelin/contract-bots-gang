@@ -3,13 +3,14 @@ import {
   Finding,
   FindingSeverity,
   FindingType,
-  HandleBlock
+  HandleBlock,
+  Initialize,
+  HandleAlert,
+  AlertEvent,
 } from "forta-agent";
 
 import {
   condensateResults,
-  filterRepeatedAlerts,
-  getLatestAlerts,
   parseData
 } from './utils'
 
@@ -153,67 +154,70 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   return observationResults;
 }
 
-const handleBlock: HandleBlock = async (blockEvent: BlockEvent) => {
-  const findings: Finding[] = [];
-  try {
-    var {alerts, } = await getLatestAlerts(
-      blockEvent.block.number, 
-      '0x9703bb3bf08bc89e6d0fd273fa995c32f75e8998c314bafdafcfe2491678f083'
-    );
-
-    if(alerts.length == 0) return findings;
-
-    var filteredAlerts = filterRepeatedAlerts(alerts);
-
-    filteredAlerts.forEach(async alert => {
-      var knownFunctions = JSON.parse(alert.metadata.functions);
-      var knownEvents = JSON.parse(alert.metadata.events);
-
-      var results = analyzeInterface(knownEvents, knownFunctions);
-
-      //Condensate results
-      var condensatedResults: any = condensateResults(results);
-
-      if(condensatedResults.types.length == 0) return findings;
-
-      var confidence: number = 0;
-
-      condensatedResults.fmatches.forEach((match: { confidence: number; }) => {
-        confidence += match.confidence;
-      })
-
-      condensatedResults.ematches.forEach((match: { confidence: number; }) => {
-        confidence += match.confidence;
-      })
-
-      confidence /= (condensatedResults.fmatches.length + condensatedResults.ematches.length);
-
-      findings.push(
-        Finding.fromObject({
-          name: `ID-${new Date().getTime()}`,
-          description: `${alert.metadata.contractAddress.substring(0,10)} adheres to ${JSON.stringify(condensatedResults.types)}`,
-          alertId: `ID-${new Date().getTime()}`,
-          severity: FindingSeverity.Info,
-          type: FindingType.Info,
-          metadata: {
-            types: JSON.stringify(condensatedResults.types),
-            contractAddress: alert.metadata.contractAddress,
-            fmatches: JSON.stringify(condensatedResults.fmatches),
-            ematches: JSON.stringify(condensatedResults.ematches),
-            overallConfidence: `${confidence}%`,
-            extras: JSON.stringify(condensatedResults.extras)
-          },
-        })
-      );
-
-    });
-  } catch(error: any) {
-    console.log(error);
+const initialize: Initialize = async () => {
+  // do some initialization on startup e.g. fetch data
+  return {
+    'alertConfig': {
+        'subscriptions': [
+            {
+                'botId': '0x9703bb3bf08bc89e6d0fd273fa995c32f75e8998c314bafdafcfe2491678f083',
+                'alertId': 'CD'
+            }
+        ]
+    }
   }
+}
+
+const handleAlert: HandleAlert = async (alertEvent: AlertEvent) => {
+  const findings: Finding[] = [];
+  
+  const alert = alertEvent.alert;
+
+  var knownFunctions = JSON.parse(alert.metadata.functions);
+
+  var knownEvents = JSON.parse(alert.metadata.events);
+
+  var results = analyzeInterface(knownEvents, knownFunctions);
+
+  //Condensate results
+  var condensatedResults: any = condensateResults(results);
+
+  if(condensatedResults.types.length == 0) return findings;
+
+  var confidence: number = 0;
+
+  condensatedResults.fmatches.forEach((match: { confidence: number; }) => {
+    confidence += match.confidence;
+  })
+
+  condensatedResults.ematches.forEach((match: { confidence: number; }) => {
+    confidence += match.confidence;
+  })
+
+  confidence /= (condensatedResults.fmatches.length + condensatedResults.ematches.length);
+
+  findings.push(
+    Finding.fromObject({
+      name: `ID-${new Date().getTime()}`,
+      description: `${alert.metadata.contractAddress.substring(0,10)} adheres to ${JSON.stringify(condensatedResults.types)}`,
+      alertId: `ID-${new Date().getTime()}`,
+      severity: FindingSeverity.Info,
+      type: FindingType.Info,
+      metadata: {
+        types: JSON.stringify(condensatedResults.types),
+        contractAddress: alert.metadata.contractAddress,
+        fmatches: JSON.stringify(condensatedResults.fmatches),
+        ematches: JSON.stringify(condensatedResults.ematches),
+        overallConfidence: `${confidence}%`,
+        extras: JSON.stringify(condensatedResults.extras)
+      },
+    })
+  );
 
   return findings;
 }
 
 export default {
-  handleBlock
+  initialize,
+  handleAlert
 };
