@@ -137,6 +137,7 @@ const runTx = async (
     deployer: string;
     contractAddress: string;
     transaction: string;
+    isFactory: boolean;
   }[]
 ) => {
   let findings: Finding[] = [];
@@ -154,12 +155,12 @@ const runTx = async (
 
       // var compressedAnalysis: any = await asyncDeflate(JSON.stringify(result.analysis))
       // compressedAnalysis = compressedAnalysis.toString('base64');
-
+      const isFactory = contracts[i].isFactory ? 'from factory' : '';
       findings.push(
         Finding.fromObject({
-          name: `CD-${new Date().getTime()}`,
-          description: `Contract deconstruct ${contracts[i].contractAddress.substring(0, 10)}`,
-          alertId: `CD-${new Date().getTime()}`,
+          name: `Contract deconstructed`,
+          description: `Contract deconstruct ${isFactory} ${contracts[i].contractAddress.substring(0, 10)}`,
+          alertId: `CD`,
           severity: FindingSeverity.Info,
           type: FindingType.Info,
           metadata: {
