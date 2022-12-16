@@ -8,6 +8,7 @@ export async function getCreatedContractsTX(txEvent: TransactionEvent){
         deployer: string,
         contractAddress: string,
         transaction: string,
+        isFactory: boolean,
     }[] = [];
 
     let transaction = txEvent.transaction;
@@ -21,6 +22,7 @@ export async function getCreatedContractsTX(txEvent: TransactionEvent){
             deployer: transaction.from,
             contractAddress: contractAddressFromReceipt,
             transaction: transaction.hash,
+            isFactory: false,
         })
     } else {
         if(!ethProvider) ethProvider = getEthersProvider();
@@ -32,7 +34,8 @@ export async function getCreatedContractsTX(txEvent: TransactionEvent){
                         contracts.push({
                           deployer: trace.action.from,
                           contractAddress: trace.result.address,
-                          transaction: transaction.hash
+                          transaction: transaction.hash,
+                          isFactory: true,
                         });
                       }
                 }
