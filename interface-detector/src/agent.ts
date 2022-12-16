@@ -1,9 +1,7 @@
 import {
-  BlockEvent,
   Finding,
   FindingSeverity,
   FindingType,
-  HandleBlock,
   Initialize,
   HandleAlert,
   AlertEvent,
@@ -198,9 +196,9 @@ const handleAlert: HandleAlert = async (alertEvent: AlertEvent) => {
 
   findings.push(
     Finding.fromObject({
-      name: `ID-${new Date().getTime()}`,
+      name: `Interface detected`,
       description: `${alert.metadata.contractAddress.substring(0,10)} adheres to ${JSON.stringify(condensatedResults.types)}`,
-      alertId: `ID-${new Date().getTime()}`,
+      alertId: `ID`,
       severity: FindingSeverity.Info,
       type: FindingType.Info,
       metadata: {
