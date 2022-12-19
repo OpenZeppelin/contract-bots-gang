@@ -27,7 +27,8 @@ import {
   isItProxyAdmin,
   isItTransparentUpgradeableProxyPattern,
   isItInitializable, 
-  isItPausable
+  isItPausable,
+  isItPullPayment,
 } from './inspectors'
 
 const analyzeInterface = (events: any[], functions: any[]) => {
@@ -183,6 +184,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'Pausable', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItPullPayment(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'PullPayment', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,

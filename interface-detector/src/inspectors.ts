@@ -423,7 +423,6 @@ export function isItInitializable(functions: any[]) {
 /****************** SECURITY *******************************/
 
 export function isItPausable(events: any[], functions: any[]) {
-    // ProxyAdmin must be Ownable -> should it ?
 
     var functionsInInterface: any[] = [
         "paused()",
@@ -433,6 +432,33 @@ export function isItPausable(events: any[], functions: any[]) {
         'Paused(address)',
         'Unpaused(address)'
     ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
+
+export function isItPullPayment(events: any[], functions: any[]) {
+
+    var functionsInInterface: any[] = [
+        'withdrawPayments(address)',
+        'payments(address)'
+    ];
+
+    var eventsInInterface = ['']
 
     var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
         events, 
