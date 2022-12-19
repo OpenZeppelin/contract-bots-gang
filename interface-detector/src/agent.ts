@@ -26,7 +26,8 @@ import {
   isItERC1967,
   isItProxyAdmin,
   isItTransparentUpgradeableProxyPattern,
-  isItInitializable
+  isItInitializable, 
+  isItPausable
 } from './inspectors'
 
 const analyzeInterface = (events: any[], functions: any[]) => {
@@ -173,6 +174,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
       status: result, 
       fmatches: functionmatches, 
       ematches: null,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItPausable(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'Pausable', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
       extras: {}
     }
   );

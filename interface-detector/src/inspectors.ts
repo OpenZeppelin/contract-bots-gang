@@ -61,6 +61,8 @@ export function isItOwnable(events: any[], functions: any[]) {
     }
 }
 
+/****************** TOKENS *******************************/
+
 export function isItERC20(events: any[], functions: any[]) {
     var functionsInInterface = [
         'totalSupply()',
@@ -411,6 +413,38 @@ export function isItInitializable(functions: any[]) {
         result: true, 
         functionmatches: initializerFunctions,
         eventmatches: null
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
+
+/****************** SECURITY *******************************/
+
+export function isItPausable(events: any[], functions: any[]) {
+    // ProxyAdmin must be Ownable -> should it ?
+
+    var functionsInInterface: any[] = [
+        "paused()",
+    ];
+
+    var eventsInInterface = [
+        'Paused(address)',
+        'Unpaused(address)'
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
     }; else return {
         result: false, 
         functionmatches: null, 
