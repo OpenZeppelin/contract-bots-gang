@@ -18,6 +18,7 @@ import {
   isItOwnable,
   isItERC20,
   isItERC721,
+  isItERC1155,
   isItAccessControl,
   isItProxy,
   isItUUPS,
@@ -60,6 +61,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'ERC721', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItERC1155(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'ERC1155', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,

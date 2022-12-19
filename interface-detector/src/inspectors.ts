@@ -133,6 +133,41 @@ export function isItERC721(events: any[], functions: any[]) {
     }
 }
 
+export function isItERC1155(events: any[], functions: any[]) {
+    var functionsInInterface = [
+        'balanceOf(address,uint256)',
+        'balanceOfBatch(address[],uint256[])',
+        'setApprovalForAll(address,bool)',
+        'isApprovedForAll(address,address)',
+        'safeTransferFrom(address,address,uint256,uint256,bytes)',
+        'safeBatchTransferFrom(address,address,uint256[],uint256[],bytes)',
+    ];
+
+    var eventsInInterface = [
+        'TransferSingle(address,address,address,uint256,uint256)',
+        'TransferBatch(address,address,address,uint256[],uint256[])',
+        'ApprovalForAll(address,address,bool)',
+        'URI(string,uint256)',
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
+
 export function isItAccessControl(events: any[], functions: any[]) {
     var functionsInInterface = [
         'hasRole(bytes32,address)',
