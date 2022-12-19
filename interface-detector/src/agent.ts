@@ -19,6 +19,7 @@ import {
   isItERC20,
   isItERC721,
   isItERC1155,
+  isItERC777,
   isItAccessControl,
   isItProxy,
   isItUUPS,
@@ -73,6 +74,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'ERC1155', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItERC777(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'ERC777', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,

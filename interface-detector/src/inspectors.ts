@@ -168,6 +168,49 @@ export function isItERC1155(events: any[], functions: any[]) {
     }
 }
 
+export function isItERC777(events: any[], functions: any[]) {
+    var functionsInInterface = [
+        'name()',
+        'symbol()',
+        'granularity()',
+        'totalSupply()',
+        'balanceOf(address)',
+        'send(address,uint256,bytes)',
+        'burn(uint256,bytes)',
+        'isOperatorFor(address,address)',
+        'authorizeOperator(address)',
+        'revokeOperator(address)',
+        'defaultOperators()',
+        'operatorSend(address,address,uint256,bytes,bytes)',
+        'operatorBurn(address,uint256,bytes,bytes)',
+    ];
+
+    var eventsInInterface = [
+        'Minted(address,address,uint256,bytes,bytes)',
+        'Burned(address,address,uint256,bytes,bytes)',
+        'AuthorizedOperator(address,address)',
+        'RevokedOperator(address,address)',
+        'Sent(address,address,address,uint256,bytes,bytes)'
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
+
 export function isItAccessControl(events: any[], functions: any[]) {
     var functionsInInterface = [
         'hasRole(bytes32,address)',
