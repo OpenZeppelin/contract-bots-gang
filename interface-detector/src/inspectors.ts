@@ -458,7 +458,60 @@ export function isItPullPayment(events: any[], functions: any[]) {
         'payments(address)'
     ];
 
-    var eventsInInterface = ['']
+    var eventsInInterface: any[] = []
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
+
+/****************** GOVERNANCE *******************************/
+
+export function isItGovernor(events: any[], functions: any[]) {
+
+    var functionsInInterface: any[] = [
+        'name()',
+        'version()',
+        'COUNTING_MODE()',
+        'hashProposal(address[],int256[],bytes[],bytes32)',
+        'state(uint256)',
+        'proposalSnapshot(uint256)',
+        'proposalDeadline(uint256)',
+        'votingDelay()',
+        'votingPeriod()',
+        'quorum(uint256)',
+        'getVotes(address,uint256)',
+        'getVotesWithParams(address,uint256,bytes)',
+        'hasVoted(uint256,address)',
+        'propose(address[],uint256[],bytes[],string)',
+        'execute(address[],uint256[],bytes[],bytes32)',
+        'castVote(uint256,uint8)',
+        'castVoteWithReason(uint256,uint8,string)',
+        'castVoteWithReasonAndParams(uint256,uint8,string,bytes)',
+        'castVoteBySig(uint256,uint8,uint8,bytes32,bytes32)',
+        'castVoteWithReasonAndParamsBySig(uint256,uint8,string,bytes,uint8,bytes32,bytes32)'
+    ];
+
+    var eventsInInterface = [
+        'ProposalCreated(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,string)',
+        'ProposalCanceled(uint256)',
+        'ProposalExecuted(uint256)',
+        'VoteCast(address,uint256,uint8,uint256,string)',
+        'VoteCastWithParams(address,uint256,uint8,uint256,string,bytes)'
+    ]
 
     var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
         events, 
