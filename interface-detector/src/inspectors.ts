@@ -530,3 +530,47 @@ export function isItGovernor(events: any[], functions: any[]) {
         eventmatches: null
     }
 }
+
+export function isItTimelockController(events: any[], functions: any[]) {
+
+    var functionsInInterface: any[] = [
+        'isOperation(bytes32)',
+        'isOperationPending(bytes32)',
+        'isOperationReady(bytes32)',
+        'isOperationDone(bytes32)',
+        'getTimestamp(bytes32)',
+        'getMinDelay()',
+        'hashOperation(address,uint256,bytes,bytes32,bytes32)',
+        'hashOperationBatch(address[],uint256[],bytes[],bytes32,bytes32)',
+        'schedule(address,uint256,bytes,bytes32,bytes32,uint256)',
+        'scheduleBatch(address[],uint256[],bytes[],bytes32,bytes32,uint256)',
+        'cancel(bytes32)',
+        'execute(address,uint256,bytes,bytes32,bytes32)',
+        'executeBatch(address[],uint256[],bytes[],bytes32,bytes32)',
+        'updateDelay(uint256)'
+    ];
+
+    var eventsInInterface = [
+        'CallScheduled(bytes32,uint256,address,uint256,bytes,bytes32,uint256)',
+        'CallExecuted(bytes32,uint256,address,uint256,bytes)',
+        'Cancelled(bytes32)',
+        'MinDelayChange(uint256,uint256)'
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
