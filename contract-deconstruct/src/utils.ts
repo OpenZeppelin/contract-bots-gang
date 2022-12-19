@@ -24,25 +24,17 @@ export async function getCreatedContractsTX(txEvent: TransactionEvent){
             transaction: transaction.hash,
             isFactory: false,
         })
-    } else {
-        if(!ethProvider) ethProvider = getEthersProvider();
-        const bytecode = await ethProvider.getCode(transaction.to);
-        if(bytecode.length > 0){
-            for (const trace of txEvent.traces) {
-                if(trace.type === "create"){
-                    if (trace.result.address) {
-                        contracts.push({
-                          deployer: trace.action.from,
-                          contractAddress: trace.result.address,
-                          transaction: transaction.hash,
-                          isFactory: true,
-                        });
-                      }
-                }
-            }
+    } else if(txEvent.traces.find(element => element.type === "create")) {
+        const newContracts = txEvent.traces.filter(element => element.type === "create");
+        for(const trace of newContracts) {
+            contracts.push({
+                deployer: trace.action.from,
+                contractAddress: trace.result.address,
+                transaction: transaction.hash,
+                isFactory: true,
+              });
         }
     }
-
     return contracts;
 
 }
