@@ -608,3 +608,44 @@ export function isItVotes(events: any[], functions: any[]) {
         eventmatches: null
     }
 }
+
+/****************** FINANCE *******************************/
+
+export function isItVestingWallet(events: any[], functions: any[]) {
+
+    var functionsInInterface: any[] = [
+        'beneficiary()',
+        'start()',
+        'duration()',
+        'released()',
+        'released(address)',
+        'releasable()',
+        'releasable(address)',
+        'release()',
+        'release(address)',
+        'vestedAmount(uint64)',
+        'vestedAmount(address,uint64)'
+    ];
+
+    var eventsInInterface = [
+        'EtherReleased(uint256)',
+        'ERC20Released(address,uint256)',
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
