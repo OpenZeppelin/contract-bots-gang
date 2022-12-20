@@ -574,3 +574,37 @@ export function isItTimelockController(events: any[], functions: any[]) {
         eventmatches: null
     }
 }
+
+export function isItVotes(events: any[], functions: any[]) {
+
+    var functionsInInterface: any[] = [
+        'getVotes(address)',
+        'getPastVotes(address,uint256)',
+        'getPastTotalSupply(uint256)',
+        'delegates(address)',
+        'delegate(address)',
+        'delegateBySig(address,uint256,uint256,uint8,bytes32,bytes32)',
+    ];
+
+    var eventsInInterface = [
+        'DelegateChanged(address,address,address)',
+        'DelegateVotesChanged(address,uint256,uint256)',
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
