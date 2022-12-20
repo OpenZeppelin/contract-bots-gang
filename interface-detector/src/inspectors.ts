@@ -649,3 +649,44 @@ export function isItVestingWallet(events: any[], functions: any[]) {
         eventmatches: null
     }
 }
+
+export function isItPaymentSplitter(events: any[], functions: any[]) {
+
+    var functionsInInterface: any[] = [
+        'totalShares()',
+        'totalReleased()',
+        'totalReleased(address)',
+        'shares(address)',
+        'released(address)',
+        'released(address,address)',
+        'payee(uint256)',
+        'releasable(address)',
+        'releasable(address,address)',
+        'release(address)',
+        'release(address,address)'
+    ];
+
+    var eventsInInterface = [
+        'PayeeAdded(address,uint256)',
+        'PaymentReleased(address,uint256)',
+        'ERC20PaymentReleased(address,address,uint256)',
+        'PaymentReceived(address,uint256)'
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}

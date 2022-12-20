@@ -33,6 +33,7 @@ import {
   isItTimelockController,
   isItVotes,
   isItVestingWallet,
+  isItPaymentSplitter,
 } from './inspectors'
 
 const analyzeInterface = (events: any[], functions: any[]) => {
@@ -248,6 +249,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'VestingWallet', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItPaymentSplitter(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'PaymentSplitter', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,
