@@ -589,6 +589,40 @@ export function isItGovernor(events: any[], functions: any[]) {
     }
 }
 
+export function isItGovernorCompatibilityBravo(events: any[], functions: any[]) {
+
+    var functionsInInterface: any[] = [
+        'quorumVotes()',
+        'proposals(uint256)',
+        'propose(address[],uint256[],string[],bytes[],string)',
+        'queue(uint256)',
+        'execute(uint256)',
+        'cancel(uint256)',
+        'getActions(uint256)',
+        'getReceipt(uint256,address)'
+    ];
+
+    var eventsInInterface: any[] = [
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
+
 export function isItTimelockController(events: any[], functions: any[]) {
 
     var functionsInInterface: any[] = [

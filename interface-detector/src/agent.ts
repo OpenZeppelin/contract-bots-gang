@@ -32,6 +32,7 @@ import {
   isItPausable,
   isItPullPayment,
   isItGovernor,
+  isItGovernorCompatibilityBravo,
   isItTimelockController,
   isItVotes,
   isItVestingWallet,
@@ -250,6 +251,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'Governor', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItGovernorCompatibilityBravo(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'GovernorCompatibilityBravo', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,
