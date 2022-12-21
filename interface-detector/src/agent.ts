@@ -28,6 +28,7 @@ import {
   isItERC20Votes,
   isItERC20VotesComp,
   isItERC20Wrapper,
+  isItERC4626,
   isItERC721,
   isItERC1155,
   isItERC777,
@@ -213,6 +214,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'ERC20Wrapper', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItERC4626(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'ERC4626', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,

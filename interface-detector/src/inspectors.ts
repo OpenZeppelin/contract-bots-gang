@@ -411,6 +411,49 @@ export function isItERC20Wrapper(events: any[], functions: any[]) {
     }
 }
 
+export function isItERC4626(events: any[], functions: any[]) {
+    var functionsInInterface = [
+        'asset()',
+        'totalAssets()',
+        'convertToShares(uint256)',
+        'convertToAssets(uint256)',
+        'maxDeposit(address)',
+        'previewDeposit(uint256)',
+        'deposit(uint256,address)',
+        'maxMint(address)',
+        'previewMint(uint256)',
+        'mint(uint256,address)',
+        'maxWithdraw(address)',
+        'previewWithdraw(uint256)',
+        'withdraw(uint256,address,address)',
+        'maxRedeem(address)',
+        'previewRedeem(uint256)',
+        'redeem(uint256,address,address)'
+    ];
+
+    var eventsInInterface = [
+        'Deposit(address,address,uint256,uint256)',
+        'Withdraw(address,address,address,uint256,uint256)'
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
+
 export function isItERC721(events: any[], functions: any[]) {
     var functionsInInterface = [
         'balanceOf(address)',
