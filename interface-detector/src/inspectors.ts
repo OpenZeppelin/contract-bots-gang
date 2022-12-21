@@ -383,6 +383,34 @@ export function isItERC20VotesComp(events: any[], functions: any[]) {
     }
 }
 
+export function isItERC20Wrapper(events: any[], functions: any[]) {
+    var functionsInInterface = [
+        'decimals()',
+        'depositFor(address,uint256)',
+        'withdrawTo(address,uint256)'
+    ];
+
+    var eventsInInterface: any[] = [
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
+
 export function isItERC721(events: any[], functions: any[]) {
     var functionsInInterface = [
         'balanceOf(address)',
