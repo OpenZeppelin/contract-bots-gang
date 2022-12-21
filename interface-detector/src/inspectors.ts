@@ -107,8 +107,7 @@ export function isItERC721(events: any[], functions: any[]) {
         'isApprovedForAll(address,address)',
         'transferFrom(address,address,uint256)',
         'safeTransferFrom(address,address,uint256)',
-        'safeTransferFrom(address,address,uint256,bytes)',
-        'supportsInterface(bytes4)'
+        'safeTransferFrom(address,address,uint256,bytes)'
     ];
 
     var eventsInInterface = [
@@ -671,6 +670,35 @@ export function isItPaymentSplitter(events: any[], functions: any[]) {
         'PaymentReleased(address,uint256)',
         'ERC20PaymentReleased(address,address,uint256)',
         'PaymentReceived(address,uint256)'
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
+
+/****************** UTILS *******************************/
+
+export function isItERC165(events: any[], functions: any[]) {
+
+    var functionsInInterface = [
+        'supportsInterface(bytes4)'
+    ];
+
+    var eventsInInterface: any[] = [
     ]
 
     var {isItInterface, functionMatchesResults, eventMatchesResults} = match(

@@ -34,6 +34,7 @@ import {
   isItVotes,
   isItVestingWallet,
   isItPaymentSplitter,
+  isItERC165,
 } from './inspectors'
 
 const analyzeInterface = (events: any[], functions: any[]) => {
@@ -261,6 +262,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'PaymentSplitter', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItERC165(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'ERC165', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,
