@@ -683,6 +683,41 @@ export function isItGovernorPreventLateQuorum(events: any[], functions: any[]) {
     }
 }
 
+export function isItGovernorSettings(events: any[], functions: any[]) {
+
+    var functionsInInterface: any[] = [
+        'votingDelay()',
+        'votingPeriod()',
+        'proposalThreshold()',
+        'setVotingDelay(uint256)',
+        'setVotingPeriod(uint256)',
+        'setProposalThreshold(uint256)'
+    ];
+
+    var eventsInInterface: any[] = [
+        'VotingDelaySet(uint256,uint256)',
+        'VotingPeriodSet(uint256,uint256)',
+        'ProposalThresholdSet(uint256,uint256)'
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
+
 export function isItTimelockController(events: any[], functions: any[]) {
 
     var functionsInInterface: any[] = [
