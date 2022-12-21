@@ -623,6 +623,35 @@ export function isItGovernorCompatibilityBravo(events: any[], functions: any[]) 
     }
 }
 
+export function isItGovernorCountingSimple(events: any[], functions: any[]) {
+
+    var functionsInInterface: any[] = [
+        'COUNTING_MODE()',
+        'hasVoted(uint256,address)',
+        'proposalVotes(uint256)'
+    ];
+
+    var eventsInInterface: any[] = [
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
+
 export function isItTimelockController(events: any[], functions: any[]) {
 
     var functionsInInterface: any[] = [
