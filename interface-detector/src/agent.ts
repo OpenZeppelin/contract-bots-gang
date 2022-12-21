@@ -38,6 +38,7 @@ import {
   isItGovernorSettings,
   isItGovernorTimelockCompound,
   isItGovernorVotesQuorumFraction,
+  isItGovernorTimelock,
   isItTimelockController,
   isItVotes,
   isItVestingWallet,

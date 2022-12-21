@@ -783,6 +783,36 @@ export function isItGovernorVotesQuorumFraction(events: any[], functions: any[])
     }
 }
 
+export function isItGovernorTimelock(events: any[], functions: any[]) {
+
+    var functionsInInterface: any[] = [
+        'timelock()',
+        'proposalEta(uint256)',
+        'queue(address[],uint256[],bytes[],bytes32)'
+    ];
+
+    var eventsInInterface: any[] = [
+        'ProposalQueued(uint256,uint256)'
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
+
 export function isItTimelockController(events: any[], functions: any[]) {
 
     var functionsInInterface: any[] = [
