@@ -16,11 +16,12 @@ import {
 
 import {
   isItOwnable,
+  isItAccessControl,
+  isItAccessControlEnumerable,
   isItERC20,
   isItERC721,
   isItERC1155,
   isItERC777,
-  isItAccessControl,
   isItProxy,
   isItUUPS,
   isItERC1967,
@@ -41,6 +42,8 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   var parsedData = parseData(events, functions);
   var observationResults: any[] = [];
 
+  /****************** ACCESS *******************************/
+
   var {result, functionmatches, eventmatches} = isItOwnable(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
   
   observationResults.push(
@@ -52,6 +55,32 @@ const analyzeInterface = (events: any[], functions: any[]) => {
       extras: {}
     }
   );
+
+  var {result, functionmatches, eventmatches} = isItAccessControl(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'AccessControl', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItAccessControlEnumerable(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'AccessControlEnumerable', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+  
+  /****************** TOKEN *******************************/
 
   var {result, functionmatches, eventmatches} = isItERC20(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
 
@@ -101,17 +130,7 @@ const analyzeInterface = (events: any[], functions: any[]) => {
     }
   );
 
-  var {result, functionmatches, eventmatches} = isItAccessControl(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
-
-  observationResults.push(
-    {
-      type: 'AccessControl', 
-      status: result, 
-      fmatches: functionmatches, 
-      ematches: eventmatches,
-      extras: {}
-    }
-  );
+  /****************** PROXY *******************************/
 
   var {result, functionmatches, eventmatches} = isItProxy(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
 
@@ -185,6 +204,8 @@ const analyzeInterface = (events: any[], functions: any[]) => {
     }
   );
 
+  /****************** SECURITY *******************************/
+
   var {result, functionmatches, eventmatches} = isItPausable(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
 
   observationResults.push(
@@ -208,6 +229,8 @@ const analyzeInterface = (events: any[], functions: any[]) => {
       extras: {}
     }
   );
+
+  /****************** GOVERNANCE *******************************/
 
   var {result, functionmatches, eventmatches} = isItGovernor(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
 
@@ -245,6 +268,8 @@ const analyzeInterface = (events: any[], functions: any[]) => {
     }
   );
 
+  /****************** FINANCE *******************************/
+
   var {result, functionmatches, eventmatches} = isItVestingWallet(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
 
   observationResults.push(
@@ -268,6 +293,8 @@ const analyzeInterface = (events: any[], functions: any[]) => {
       extras: {}
     }
   );
+
+  /****************** UTILS *******************************/
 
   var {result, functionmatches, eventmatches} = isItERC165(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
 

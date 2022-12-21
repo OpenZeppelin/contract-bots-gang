@@ -32,6 +32,8 @@ function match(events: any [], functions: any[], functionsInInterface: any[], ev
     return {isItInterface, functionMatchesResults, eventMatchesResults}
 }
 
+/****************** ACCESS *******************************/
+
 export function isItOwnable(events: any[], functions: any[]) {
     var functionsInInterface = [
         'owner()',
@@ -41,6 +43,66 @@ export function isItOwnable(events: any[], functions: any[]) {
 
     var eventsInInterface = [
         'OwnershipTransferred(address,address)'
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
+
+export function isItAccessControl(events: any[], functions: any[]) {
+    var functionsInInterface = [
+        'hasRole(bytes32,address)',
+        'getRoleAdmin(bytes32)',
+        'grantRole(bytes32,address)',
+        'revokeRole(bytes32,address)',
+        'renounceRole(bytes32,address)'
+    ];
+
+    var eventsInInterface = [
+        'RoleRevoked(bytes32,address,address)',
+        'RoleGranted(bytes32,address,address)',
+        'RoleAdminChanged(bytes32,bytes32,bytes32)'
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
+
+export function isItAccessControlEnumerable(events: any[], functions: any[]) {
+    var functionsInInterface = [
+        'getRoleMember(bytes32,uint256)',
+        'getRoleMemberCount(bytes32)'
+    ];
+
+    var eventsInInterface: any[] = [
     ]
 
     var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
@@ -212,38 +274,7 @@ export function isItERC777(events: any[], functions: any[]) {
     }
 }
 
-export function isItAccessControl(events: any[], functions: any[]) {
-    var functionsInInterface = [
-        'hasRole(bytes32,address)',
-        'getRoleAdmin(bytes32)',
-        'grantRole(bytes32,address)',
-        'revokeRole(bytes32,address)',
-        'renounceRole(bytes32,address)'
-    ];
-
-    var eventsInInterface = [
-        'RoleRevoked(bytes32,address,address)',
-        'RoleGranted(bytes32,address,address)',
-        'RoleAdminChanged(bytes32,bytes32,bytes32)'
-    ]
-
-    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
-        events, 
-        functions, 
-        functionsInInterface, 
-        eventsInInterface
-    )
-
-    if(isItInterface) return {
-        result: true, 
-        functionmatches: functionMatchesResults, 
-        eventmatches: eventMatchesResults
-    }; else return {
-        result: false, 
-        functionmatches: null, 
-        eventmatches: null
-    }
-}
+/****************** PROXY *******************************/
 
 export function isItUUPS(events: any[], functions: any[]) {
 
