@@ -63,6 +63,34 @@ export function isItOwnable(events: any[], functions: any[]) {
     }
 }
 
+export function isItOwnable2Step(events: any[], functions: any[]) {
+    var functionsInInterface = [
+        'pendingOwner()',
+        'transferOwnership(address newOwner)',
+    ];
+
+    var eventsInInterface = [
+        'OwnershipTransferStarted(address,address)'
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
+
 export function isItAccessControl(events: any[], functions: any[]) {
     var functionsInInterface = [
         'hasRole(bytes32,address)',

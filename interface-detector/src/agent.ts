@@ -16,6 +16,7 @@ import {
 
 import {
   isItOwnable,
+  isItOwnable2Step,
   isItAccessControl,
   isItAccessControlEnumerable,
   isItERC20,
@@ -45,6 +46,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   /****************** ACCESS *******************************/
 
   var {result, functionmatches, eventmatches} = isItOwnable(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+  
+  observationResults.push(
+    {
+      type: 'Ownable', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItOwnable2Step(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
   
   observationResults.push(
     {
