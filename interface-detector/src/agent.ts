@@ -36,6 +36,7 @@ import {
   isItGovernorCountingSimple,
   isItGovernorPreventLateQuorum,
   isItGovernorSettings,
+  isItGovernorTimelockCompound,
   isItTimelockController,
   isItVotes,
   isItVestingWallet,
@@ -302,6 +303,30 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'GovernorSettings', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItGovernorSettings(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'GovernorSettings', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItGovernorTimelockCompound(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'GovernorTimelockCompound', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,

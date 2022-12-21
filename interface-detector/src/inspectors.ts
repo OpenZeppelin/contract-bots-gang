@@ -718,6 +718,39 @@ export function isItGovernorSettings(events: any[], functions: any[]) {
     }
 }
 
+export function isItGovernorTimelockCompound(events: any[], functions: any[]) {
+
+    var functionsInInterface: any[] = [
+        'state(uint256)',
+        'timelock()',
+        'proposalEta(uint256)',
+        'queue(address[],uint256[],bytes[],bytes32)',
+        '__acceptAdmin()',
+        'updateTimelock(address)'
+    ];
+
+    var eventsInInterface: any[] = [
+        'TimelockChange(address,address)'
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
+
 export function isItTimelockController(events: any[], functions: any[]) {
 
     var functionsInInterface: any[] = [
