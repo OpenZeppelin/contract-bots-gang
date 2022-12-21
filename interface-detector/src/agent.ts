@@ -45,6 +45,7 @@ import {
   isItPaymentSplitter,
   isItERC165,
   isItERC2771Context,
+  isItMinimalForwarder,
 } from './inspectors'
 
 const analyzeInterface = (events: any[], functions: any[]) => {
@@ -392,6 +393,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'ERC2771Context', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItMinimalForwarder(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'MinimalForwarder', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,
