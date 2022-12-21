@@ -348,6 +348,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
     }
   );
 
+  var {result, functionmatches, eventmatches} = isItGovernorTimelock(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'GovernorTimelock', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
   var {result, functionmatches, eventmatches} = isItTimelockController(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
 
   observationResults.push(
