@@ -44,6 +44,7 @@ import {
   isItVestingWallet,
   isItPaymentSplitter,
   isItERC165,
+  isItERC2771Context,
 } from './inspectors'
 
 const analyzeInterface = (events: any[], functions: any[]) => {
@@ -383,6 +384,21 @@ const analyzeInterface = (events: any[], functions: any[]) => {
       extras: {}
     }
   );
+
+  /****************** METATX *******************************/
+
+  var {result, functionmatches, eventmatches} = isItERC2771Context(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'ERC2771Context', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
 
   /****************** FINANCE *******************************/
 

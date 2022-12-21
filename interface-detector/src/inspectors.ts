@@ -891,6 +891,35 @@ export function isItVotes(events: any[], functions: any[]) {
     }
 }
 
+/****************** METATX *******************************/
+
+export function isItERC2771Context(events: any[], functions: any[]) {
+
+    var functionsInInterface: any[] = [
+        'isTrustedForwarder(address)'
+    ];
+
+    var eventsInInterface: any[] = [
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
+
 /****************** FINANCE *******************************/
 
 export function isItVestingWallet(events: any[], functions: any[]) {
