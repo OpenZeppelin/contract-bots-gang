@@ -30,6 +30,7 @@ import {
   isItERC20Wrapper,
   isItERC4626,
   isItERC20Metadata,
+  isItTokenTimelock,
   isItERC721,
   isItERC1155,
   isItERC777,
@@ -239,6 +240,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'ERC20Metadata', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItTokenTimelock(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'TokenTimelock', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,
