@@ -26,6 +26,7 @@ import {
   isItERC20Permit,
   isItERC20Snapshot,
   isItERC20Votes,
+  isItERC20VotesComp,
   isItERC721,
   isItERC1155,
   isItERC777,
@@ -187,6 +188,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'ERC20Votes', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItERC20VotesComp(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'ERC20VotesComp', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,
