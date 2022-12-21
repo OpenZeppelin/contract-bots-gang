@@ -21,6 +21,7 @@ import {
   isItAccessControlEnumerable,
   isItERC20,
   isItERC20Burnable,
+  isItERC20Capped,
   isItERC721,
   isItERC1155,
   isItERC777,
@@ -122,6 +123,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'ERC20Burnable', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItERC20Capped(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'ERC20Capped', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,
