@@ -575,6 +575,32 @@ export function isItERC721Receiver(events: any[], functions: any[]) {
     }
 }
 
+export function isItERC721Burnable(events: any[], functions: any[]) {
+    var functionsInInterface = [
+        'burn(uint256)'
+    ];
+
+    var eventsInInterface: any[] = [
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
+
 export function isItERC1155(events: any[], functions: any[]) {
     var functionsInInterface = [
         'balanceOf(address,uint256)',

@@ -33,6 +33,7 @@ import {
   isItTokenTimelock,
   isItERC721,
   isItERC721Receiver,
+  isItERC721Burnable,
   isItERC1155,
   isItERC777,
   isItProxy,
@@ -277,6 +278,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'ERC721Receiver', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItERC721Burnable(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'ERC721Burnable', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,
