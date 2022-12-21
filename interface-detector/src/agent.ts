@@ -23,6 +23,7 @@ import {
   isItERC20Burnable,
   isItERC20Capped,
   isItERC20FlashMint,
+  isItERC20Permit,
   isItERC721,
   isItERC1155,
   isItERC777,
@@ -148,6 +149,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'ERC20FlashMint', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItERC20Permit(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'ERC20Permit', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,
