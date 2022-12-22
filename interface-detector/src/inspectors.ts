@@ -1811,6 +1811,8 @@ export function isItRefundEscrow(events: any[], functions: any[]) {
 
 /****************** VENDOR *******************************/
 
+/****************** VENDOR/AMB *******************************/
+
 export function isItAMB(events: any[], functions: any[]) {
 
     var functionsInInterface = [
@@ -1834,6 +1836,49 @@ export function isItAMB(events: any[], functions: any[]) {
         'UserRequestForSignature(bytes32,bytes)',
         'AffirmationCompleted(address,address,bytes32,bool)',
         'RelayedMessage(address,address,bytes32,bool)'
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
+
+/****************** VENDOR/ARBITRUM *******************************/
+
+export function isItArbSys(events: any[], functions: any[]) {
+
+    var functionsInInterface = [
+        'arbBlockNumber()',
+        'arbBlockHash(uint256)',
+        'arbChainID()',
+        'arbOSVersion()',
+        'getStorageGasAvailable()',
+        'isTopLevelCall()',
+        'mapL1SenderContractAddressToL2Alias(address,address)',
+        'wasMyCallersAddressAliased()',
+        'myCallersAddressWithoutAliasing()',
+        'withdrawEth(address)',
+        'sendTxToL1(address,bytes)',
+        'sendMerkleTreeState()'
+    ];
+
+    var eventsInInterface = [
+        'L2ToL1Tx(address,address,uint256,uint256,uint256,uint256,uint256,uint256,bytes)',
+        'L2ToL1Transaction(address,address,uint256,uint256,uint256,uint256,uint256,uint256,uint256,bytes)',
+        'SendMerkleUpdate(uint256,bytes32,uint256)'
     ]
 
     var {isItInterface, functionMatchesResults, eventMatchesResults} = match(

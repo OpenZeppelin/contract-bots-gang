@@ -73,6 +73,7 @@ import {
   isItERC2771Context,
   isItMinimalForwarder,
   isItAMB,
+  isItArbSys,
 } from './inspectors'
 
 const analyzeInterface = (events: any[], functions: any[]) => {
@@ -794,11 +795,27 @@ const analyzeInterface = (events: any[], functions: any[]) => {
 
   /****************** VENDOR *******************************/
 
+  /****************** VENDOR/AMB *******************************/
+
   var {result, functionmatches, eventmatches} = isItAMB(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
 
   observationResults.push(
     {
       type: 'AMB', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  /****************** VENDOR/ARBITRUM *******************************/
+
+  var {result, functionmatches, eventmatches} = isItArbSys(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'ArbSys', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,
