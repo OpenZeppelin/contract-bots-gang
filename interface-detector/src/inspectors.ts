@@ -1773,3 +1773,38 @@ export function isItConditionalEscrow(events: any[], functions: any[]) {
         eventmatches: null
     }
 }
+
+export function isItRefundEscrow(events: any[], functions: any[]) {
+
+    var functionsInInterface = [
+        'state()',
+        'beneficiary()',
+        'deposit(address)',
+        'close()',
+        'enableRefunds()',
+        'beneficiaryWithdraw()',
+        'withdrawalAllowed(address)'
+    ];
+
+    var eventsInInterface = [
+        'RefundsClosed()',
+        'RefundsEnabled()'
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}

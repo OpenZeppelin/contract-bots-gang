@@ -69,6 +69,7 @@ import {
   isItERC1820Registry,
   isItEscrow,
   isItConditionalEscrow,
+  isItRefundEscrow,
   isItERC2771Context,
   isItMinimalForwarder,
 } from './inspectors'
@@ -771,6 +772,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'ConditionalEscrow', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItRefundEscrow(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'RefundEscrow', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,
