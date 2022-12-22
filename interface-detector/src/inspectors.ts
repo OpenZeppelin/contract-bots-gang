@@ -1977,3 +1977,45 @@ export function isItDelayedMessageProvider(events: any[], functions: any[]) {
         eventmatches: null
     }
 }
+
+export function isItInbox(events: any[], functions: any[]) {
+
+    var functionsInInterface = [
+        'bridge()',
+        'sequencerInbox()',
+        'sendL2MessageFromOrigin(bytes)',
+        'sendL2Message(bytes)',
+        'sendL1FundedUnsignedTransaction(uint256,uint256,uint256,address,bytes)',
+        'sendL1FundedContractTransaction(uint256,uint256,address,bytes)',
+        'sendUnsignedTransaction(uint256,uint256,uint256,address,uint256,bytes)',
+        'sendContractTransaction(uint256,uint256,address,uint256,bytes)',
+        'calculateRetryableSubmissionFee(uint256,uint256)',
+        'depositEth()',
+        'createRetryableTicket(address,uint256,uint256,address,address,uint256,uint256,bytes)',
+        'unsafeCreateRetryableTicket(address,uint256,uint256,address,address,uint256,uint256,bytes)',
+        'pause()',
+        'unpause()',
+        'postUpgradeInit(address)',
+        'initialize(address,address)'
+    ];
+
+    var eventsInInterface: any[] = [
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}

@@ -76,6 +76,7 @@ import {
   isItArbSys,
   isItBridge,
   isItDelayedMessageProvider,
+  isItInbox,
 } from './inspectors'
 
 const analyzeInterface = (events: any[], functions: any[]) => {
@@ -842,6 +843,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'DelayedMessageProvider', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItInbox(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'Inbox', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,
