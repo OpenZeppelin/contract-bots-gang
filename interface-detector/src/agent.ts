@@ -75,6 +75,7 @@ import {
   isItAMB,
   isItArbSys,
   isItBridge,
+  isItDelayedMessageProvider,
 } from './inspectors'
 
 const analyzeInterface = (events: any[], functions: any[]) => {
@@ -829,6 +830,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'Bridge', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItDelayedMessageProvider(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'DelayedMessageProvider', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,

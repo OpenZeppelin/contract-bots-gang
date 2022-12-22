@@ -1949,3 +1949,31 @@ export function isItBridge(events: any[], functions: any[]) {
         eventmatches: null
     }
 }
+
+export function isItDelayedMessageProvider(events: any[], functions: any[]) {
+
+    var functionsInInterface: any[] = [
+    ];
+
+    var eventsInInterface = [
+        'InboxMessageDelivered(uint256,bytes)',
+        'InboxMessageDeliveredFromOrigin(uint256)',
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
