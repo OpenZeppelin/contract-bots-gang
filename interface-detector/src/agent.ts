@@ -35,6 +35,7 @@ import {
   isItERC721Receiver,
   isItERC721Burnable,
   isItERC721Enumerable,
+  isItERC721Metadata,
   isItERC1155,
   isItERC777,
   isItProxy,
@@ -303,6 +304,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'ERC721Enumerable', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItERC721Metadata(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'ERC721Metadata', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,
