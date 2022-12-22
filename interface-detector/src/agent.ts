@@ -86,7 +86,8 @@ import {
   isItERC1363Receiver,
   isItERC1363Spender,
   isItERC2309,
-  isItERC2981
+  isItERC2981,
+  isItERC3156FlashBorrower
 } from './inspectors'
 
 const analyzeInterface = (events: any[], functions: any[]) => {
@@ -993,6 +994,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'ERC2981', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItERC3156FlashBorrower(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'ERC3156FlashBorrower', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,
