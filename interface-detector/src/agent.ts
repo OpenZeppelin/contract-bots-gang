@@ -81,7 +81,8 @@ import {
   isItCompoundTimelock,
   isItCrossDomainMessenger,
   isItFxMessageProcessor,
-  isItERC1271
+  isItERC1271,
+  isItERC1363
 } from './inspectors'
 
 const analyzeInterface = (events: any[], functions: any[]) => {
@@ -928,6 +929,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'ERC1271', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItERC1363(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'ERC1363', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,
