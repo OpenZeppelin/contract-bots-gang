@@ -1651,3 +1651,30 @@ export function isItERC165(events: any[], functions: any[]) {
         eventmatches: null
     }
 }
+
+export function isItERC1820Implementer(events: any[], functions: any[]) {
+
+    var functionsInInterface = [
+        'canImplementInterfaceForAddress(bytes,address)'
+    ];
+
+    var eventsInInterface: any[] = [
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}

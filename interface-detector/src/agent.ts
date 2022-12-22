@@ -65,6 +65,7 @@ import {
   isItVestingWallet,
   isItPaymentSplitter,
   isItERC165,
+  isItERC1820Implementer,
   isItERC2771Context,
   isItMinimalForwarder,
 } from './inspectors'
@@ -719,6 +720,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'ERC165', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItERC1820Implementer(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'ERC1820Implementer', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,
