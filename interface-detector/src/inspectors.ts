@@ -868,6 +868,32 @@ export function isItERC777Recipient(events: any[], functions: any[]) {
     }
 }
 
+export function isItERC777Sender(events: any[], functions: any[]) {
+    var functionsInInterface = [
+        'tokensToSend(address,address,address,uint256,bytes,bytes)'
+    ];
+
+    var eventsInInterface: any[] = [
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
+
 /****************** PROXY *******************************/
 
 export function isItUUPS(events: any[], functions: any[]) {

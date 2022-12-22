@@ -43,6 +43,7 @@ import {
   isItERC1155MetadataURI,
   isItERC777,
   isItERC777Recipient,
+  isItERC777Sender,
   isItProxy,
   isItUUPS,
   isItERC1967,
@@ -405,6 +406,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'ERC777Recipient', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItERC777Sender(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'ERC777Sender', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,
