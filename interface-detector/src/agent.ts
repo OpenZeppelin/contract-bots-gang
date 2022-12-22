@@ -77,6 +77,7 @@ import {
   isItBridge,
   isItDelayedMessageProvider,
   isItInbox,
+  isItOutbox,
 } from './inspectors'
 
 const analyzeInterface = (events: any[], functions: any[]) => {
@@ -855,6 +856,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'Inbox', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItOutbox(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'Outbox', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,

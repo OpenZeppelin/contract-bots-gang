@@ -2019,3 +2019,47 @@ export function isItInbox(events: any[], functions: any[]) {
         eventmatches: null
     }
 }
+
+export function isItOutbox(events: any[], functions: any[]) {
+
+    var functionsInInterface = [
+        'rollup()',
+        'bridge()',
+        'spent(uint256)',
+        'roots(bytes32)',
+        'OUTBOX_VERSION()',
+        'updateSendRoot(bytes32,bytes32)',
+        'l2ToL1Sender()',
+        'l2ToL1Block()',
+        'l2ToL1EthBlock()',
+        'l2ToL1Timestamp()',
+        'l2ToL1OutputId()',
+        'executeTransaction(bytes32[],uint256,address,address,uint256,uint256,uint256,uint256,bytes)',
+        'executeTransactionSimulation(uint256,address,address,uint256,uint256,uint256,uint256,bytes)',
+        'isSpent(uint256)',
+        'calculateItemHash(address,address,uint256,uint256,uint256,uint256,bytes)',
+        'calculateMerkleRoot(bytes32[],uint256,bytes32)'
+    ];
+
+    var eventsInInterface = [
+        'SendRootUpdated(bytes32,bytes32)',
+        'OutBoxTransactionExecuted(address,address,uint256,uint256)'
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
