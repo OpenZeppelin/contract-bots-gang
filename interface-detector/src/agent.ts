@@ -82,7 +82,8 @@ import {
   isItCrossDomainMessenger,
   isItFxMessageProcessor,
   isItERC1271,
-  isItERC1363
+  isItERC1363,
+  isItERC1363Receiver
 } from './inspectors'
 
 const analyzeInterface = (events: any[], functions: any[]) => {
@@ -941,6 +942,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'ERC1363', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItERC1363Receiver(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'ERC1363Receiver', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,

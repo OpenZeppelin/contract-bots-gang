@@ -2233,3 +2233,30 @@ export function isItERC1363(events: any[], functions: any[]) {
         eventmatches: null
     }
 }
+
+export function isItERC1363Receiver(events: any[], functions: any[]) {
+
+    var functionsInInterface = [
+        'onTransferReceived(address,address,uint256,bytes)'
+    ];
+
+    var eventsInInterface: any[] = [
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
