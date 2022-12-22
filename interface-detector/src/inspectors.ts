@@ -2172,3 +2172,32 @@ export function isItFxMessageProcessor(events: any[], functions: any[]) {
         eventmatches: null
     }
 }
+
+/****************** INTERFACES *******************************/
+
+export function isItERC1271(events: any[], functions: any[]) {
+
+    var functionsInInterface = [
+        'isValidSignature(bytes32,bytes)'
+    ];
+
+    var eventsInInterface: any[] = [
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
