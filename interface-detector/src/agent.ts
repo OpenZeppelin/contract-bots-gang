@@ -84,7 +84,8 @@ import {
   isItERC1271,
   isItERC1363,
   isItERC1363Receiver,
-  isItERC1363Spender
+  isItERC1363Spender,
+  isItERC2309
 } from './inspectors'
 
 const analyzeInterface = (events: any[], functions: any[]) => {
@@ -967,6 +968,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'ERC1363Spender', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItERC2309(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'ERC2309', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,

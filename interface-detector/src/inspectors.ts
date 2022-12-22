@@ -2287,3 +2287,30 @@ export function isItERC1363Spender(events: any[], functions: any[]) {
         eventmatches: null
     }
 }
+
+export function isItERC2309(events: any[], functions: any[]) {
+
+    var functionsInInterface: any[] = [
+    ];
+
+    var eventsInInterface = [
+        'ConsecutiveTransfer(uint256,uint256,address,address)'
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
