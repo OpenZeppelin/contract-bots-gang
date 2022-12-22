@@ -1714,3 +1714,34 @@ export function isItERC1820Registry(events: any[], functions: any[]) {
         eventmatches: null
     }
 }
+
+export function isItEscrow(events: any[], functions: any[]) {
+
+    var functionsInInterface = [
+        'depositsOf(address)',
+        'deposit(address)',
+        'withdraw(address)'
+    ];
+
+    var eventsInInterface = [
+        'Deposited(address,uint256)',
+        'Withdrawn(address,uint256)'
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
