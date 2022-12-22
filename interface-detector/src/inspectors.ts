@@ -692,6 +692,33 @@ export function isItERC1155(events: any[], functions: any[]) {
     }
 }
 
+export function isItERC1155Receiver(events: any[], functions: any[]) {
+    var functionsInInterface = [
+        'onERC1155Received(address,address,uint256,uint256,bytes)',
+        'onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)'
+    ];
+
+    var eventsInInterface: any[] = [
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
+
 export function isItERC777(events: any[], functions: any[]) {
     var functionsInInterface = [
         'name()',
