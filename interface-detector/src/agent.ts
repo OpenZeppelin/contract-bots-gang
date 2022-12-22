@@ -80,6 +80,7 @@ import {
   isItOutbox,
   isItCompoundTimelock,
   isItCrossDomainMessenger,
+  isItFxMessageProcessor,
 } from './inspectors'
 
 const analyzeInterface = (events: any[], functions: any[]) => {
@@ -891,13 +892,27 @@ const analyzeInterface = (events: any[], functions: any[]) => {
     }
   );
 
-  /****************** VENDOR/OPTIMMISM *******************************/
+  /****************** VENDOR/OPTIMISM *******************************/
 
   var {result, functionmatches, eventmatches} = isItCrossDomainMessenger(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
 
   observationResults.push(
     {
       type: 'CrossDomainMessenger', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  /****************** VENDOR/POLYGON *******************************/
+
+  var {result, functionmatches, eventmatches} = isItFxMessageProcessor(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'FxMessageProcessor', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,

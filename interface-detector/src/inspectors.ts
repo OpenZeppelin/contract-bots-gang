@@ -2111,7 +2111,7 @@ export function isItCompoundTimelock(events: any[], functions: any[]) {
     }
 }
 
-/****************** VENDOR/OPTIMMISM *******************************/
+/****************** VENDOR/OPTIMISM *******************************/
 
 export function isItCrossDomainMessenger(events: any[], functions: any[]) {
 
@@ -2124,6 +2124,35 @@ export function isItCrossDomainMessenger(events: any[], functions: any[]) {
         'SentMessage(address,address,bytes,uint256,uint256)',
         'RelayedMessage(bytes32)',
         'FailedRelayedMessage(bytes32)'
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
+
+/****************** VENDOR/POLYGON *******************************/
+
+export function isItFxMessageProcessor(events: any[], functions: any[]) {
+
+    var functionsInInterface = [
+        'processMessageFromRoot(uint256,address,bytes)'
+    ];
+
+    var eventsInInterface: any[] = [
     ]
 
     var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
