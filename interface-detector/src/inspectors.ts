@@ -1678,3 +1678,39 @@ export function isItERC1820Implementer(events: any[], functions: any[]) {
         eventmatches: null
     }
 }
+
+export function isItERC1820Registry(events: any[], functions: any[]) {
+
+    var functionsInInterface = [
+        'setManager(address,address)',
+        'getManager(address)',
+        'setInterfaceImplementer(address,bytes32,address)',
+        'getInterfaceImplementer(address,bytes32)',
+        'interfaceHash(string)',
+        'updateERC165Cache(address,bytes4)',
+        'implementsERC165Interface(address,bytes4)',
+        'implementsERC165InterfaceNoCache(address,bytes4)'
+    ];
+
+    var eventsInInterface = [
+        'InterfaceImplementerSet(address,bytes32,address)',
+        'ManagerChanged(address,address)'
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
