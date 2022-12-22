@@ -78,6 +78,7 @@ import {
   isItDelayedMessageProvider,
   isItInbox,
   isItOutbox,
+  isItCompoundTimelock
 } from './inspectors'
 
 const analyzeInterface = (events: any[], functions: any[]) => {
@@ -868,6 +869,20 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'Outbox', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  /****************** VENDOR/COMPOUND *******************************/
+  
+  var {result, functionmatches, eventmatches} = isItCompoundTimelock(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'CompoundTimelock', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,

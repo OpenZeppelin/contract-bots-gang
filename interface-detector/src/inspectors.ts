@@ -2063,3 +2063,50 @@ export function isItOutbox(events: any[], functions: any[]) {
         eventmatches: null
     }
 }
+
+/****************** VENDOR/COMPOUND *******************************/
+
+export function isItCompoundTimelock(events: any[], functions: any[]) {
+
+    var functionsInInterface = [
+        'GRACE_PERIOD()',
+        'MINIMUM_DELAY()',
+        'MAXIMUM_DELAY()',
+        'admin()',
+        'pendingAdmin()',
+        'delay()',
+        'queuedTransactions(bytes32)',
+        'setDelay(uint256)',
+        'acceptAdmin()',
+        'setPendingAdmin(address)',
+        'queueTransaction(address,uint256,string,bytes,uint256)',
+        'cancelTransaction(address,uint256,string,bytes,uint256)',
+        'executeTransaction(address,uint256,string,bytes,uint256)'
+    ];
+
+    var eventsInInterface = [
+        'NewAdmin(address)',
+        'NewPendingAdmin(address)',
+        'NewDelay(uint256)',
+        'CancelTransaction(bytes32,address,uint256,string,bytes,uint256)',
+        'ExecuteTransaction(bytes32,address,uint256,string,bytes,uint256)',
+        'QueueTransaction(bytes32,address,uint256,string,bytes,uint256)'
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
