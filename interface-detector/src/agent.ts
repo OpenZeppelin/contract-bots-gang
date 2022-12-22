@@ -72,6 +72,7 @@ import {
   isItRefundEscrow,
   isItERC2771Context,
   isItMinimalForwarder,
+  isItAMB,
 } from './inspectors'
 
 const analyzeInterface = (events: any[], functions: any[]) => {
@@ -784,6 +785,20 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'RefundEscrow', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  /****************** VENDOR *******************************/
+
+  var {result, functionmatches, eventmatches} = isItAMB(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'AMB', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,

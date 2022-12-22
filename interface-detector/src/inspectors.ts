@@ -1808,3 +1808,48 @@ export function isItRefundEscrow(events: any[], functions: any[]) {
         eventmatches: null
     }
 }
+
+/****************** VENDOR *******************************/
+
+export function isItAMB(events: any[], functions: any[]) {
+
+    var functionsInInterface = [
+        'messageSender()',
+        'maxGasPerTx()',
+        'transactionHash()',
+        'messageId()',
+        'messageSourceChainId()',
+        'messageCallStatus(bytes32)',
+        'failedMessageDataHash(bytes32)',
+        'failedMessageReceiver(bytes32)',
+        'failedMessageSender(bytes32)',
+        'requireToPassMessage(address,bytes,uint256)',
+        'requireToConfirmMessage(address,bytes,uint256)',
+        'sourceChainId()',
+        'destinationChainId()'
+    ];
+
+    var eventsInInterface = [
+        'UserRequestForAffirmation(bytes32,bytes)',
+        'UserRequestForSignature(bytes32,bytes)',
+        'AffirmationCompleted(address,address,bytes32,bool)',
+        'RelayedMessage(address,address,bytes32,bool)'
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
