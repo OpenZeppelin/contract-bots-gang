@@ -1898,3 +1898,54 @@ export function isItArbSys(events: any[], functions: any[]) {
         eventmatches: null
     }
 }
+
+export function isItBridge(events: any[], functions: any[]) {
+
+    var functionsInInterface = [
+        'allowedDelayedInboxList(uint256)',
+        'allowedOutboxList(uint256)',
+        'delayedInboxAccs(uint256)',
+        'sequencerInboxAccs(uint256)',
+        'rollup()',
+        'sequencerInbox()',
+        'activeOutbox()',
+        'allowedDelayedInboxes(address)',
+        'allowedOutboxes(address)',
+        'sequencerReportedSubMessageCount()',
+        'enqueueDelayedMessage(uint8,address,bytes32)',
+        'executeCall(address,uint256,bytes)',
+        'delayedMessageCount()',
+        'sequencerMessageCount()',
+        'enqueueSequencerMessage(bytes32,uint256,uint256,uint256)',
+        'submitBatchSpendingReport(address,bytes32)',
+        'setSequencerInbox(address)',
+        'setDelayedInbox(address,bool)',
+        'setOutbox(address,bool)',
+        'initialize(address)'
+    ];
+
+    var eventsInInterface = [
+        'MessageDelivered(uint256,bytes32,address,uint8,address,bytes32,uint256,uint64)',
+        'BridgeCallTriggered(address,address,uint256,bytes)',
+        'InboxToggle(address,bool)',
+        'OutboxToggle(address,bool)',
+        'SequencerInboxUpdated(address)'
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}

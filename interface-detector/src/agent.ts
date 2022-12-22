@@ -74,6 +74,7 @@ import {
   isItMinimalForwarder,
   isItAMB,
   isItArbSys,
+  isItBridge,
 } from './inspectors'
 
 const analyzeInterface = (events: any[], functions: any[]) => {
@@ -816,6 +817,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'ArbSys', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItBridge(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'Bridge', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,
