@@ -78,7 +78,8 @@ import {
   isItDelayedMessageProvider,
   isItInbox,
   isItOutbox,
-  isItCompoundTimelock
+  isItCompoundTimelock,
+  isItCrossDomainMessenger,
 } from './inspectors'
 
 const analyzeInterface = (events: any[], functions: any[]) => {
@@ -883,6 +884,20 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'CompoundTimelock', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  /****************** VENDOR/OPTIMMISM *******************************/
+
+  var {result, functionmatches, eventmatches} = isItCrossDomainMessenger(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'CrossDomainMessenger', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,

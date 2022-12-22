@@ -2110,3 +2110,36 @@ export function isItCompoundTimelock(events: any[], functions: any[]) {
         eventmatches: null
     }
 }
+
+/****************** VENDOR/OPTIMMISM *******************************/
+
+export function isItCrossDomainMessenger(events: any[], functions: any[]) {
+
+    var functionsInInterface = [
+        'xDomainMessageSender()',
+        'sendMessage(address,bytes,uint32)'
+    ];
+
+    var eventsInInterface = [
+        'SentMessage(address,address,bytes,uint256,uint256)',
+        'RelayedMessage(bytes32)',
+        'FailedRelayedMessage(bytes32)'
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
