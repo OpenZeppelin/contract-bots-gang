@@ -773,6 +773,32 @@ export function isItERC1155Supply(events: any[], functions: any[]) {
     }
 }
 
+export function isItERC1155MetadataURI(events: any[], functions: any[]) {
+    var functionsInInterface = [
+        'uri(uint256)'
+    ];
+
+    var eventsInInterface: any[] = [
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
+
 export function isItERC777(events: any[], functions: any[]) {
     var functionsInInterface = [
         'name()',

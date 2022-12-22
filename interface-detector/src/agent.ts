@@ -40,6 +40,7 @@ import {
   isItERC1155Receiver,
   isItERC1155Burnable,
   isItERC1155Supply,
+  isItERC1155MetadataURI,
   isItERC777,
   isItProxy,
   isItUUPS,
@@ -88,7 +89,7 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   
   observationResults.push(
     {
-      type: 'Ownable', 
+      type: 'Ownable2Step', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,
@@ -367,6 +368,18 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   observationResults.push(
     {
       type: 'ERC1155Supply', 
+      status: result, 
+      fmatches: functionmatches, 
+      ematches: eventmatches,
+      extras: {}
+    }
+  );
+
+  var {result, functionmatches, eventmatches} = isItERC1155MetadataURI(parsedData.eventsGroupedByHex, parsedData.functionsGroupedByHex)
+
+  observationResults.push(
+    {
+      type: 'ERC1155MetadataURI', 
       status: result, 
       fmatches: functionmatches, 
       ematches: eventmatches,
