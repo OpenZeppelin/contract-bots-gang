@@ -2368,3 +2368,32 @@ export function isItERC3156FlashBorrower(events: any[], functions: any[]) {
         eventmatches: null
     }
 }
+
+export function isItERC3156FlashLender(events: any[], functions: any[]) {
+
+    var functionsInInterface = [
+        'maxFlashLoan(address)',
+        'flashFee(address,uint256)',
+        'flashLoan(address,address,uint256,bytes)'
+    ];
+
+    var eventsInInterface: any[] = [
+    ]
+
+    var {isItInterface, functionMatchesResults, eventMatchesResults} = match(
+        events, 
+        functions, 
+        functionsInInterface, 
+        eventsInInterface
+    )
+
+    if(isItInterface) return {
+        result: true, 
+        functionmatches: functionMatchesResults, 
+        eventmatches: eventMatchesResults
+    }; else return {
+        result: false, 
+        functionmatches: null, 
+        eventmatches: null
+    }
+}
