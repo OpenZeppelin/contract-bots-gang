@@ -35,9 +35,9 @@ npm run sync:events
 
 ```
 {
-    name: `CI-XXX`, // XXX Is the Unix timestamp.
+    name: `Contract deconstructed`,
     description: `Contract inspection ${contractAddressFromReceipt}`, // Here we put the contract address
-    alertId: `CI-XXX`, // XXX Is the Unix timestamp.
+    alertId: `CI`,
     severity: FindingSeverity.Info,
     type: FindingType.Info,
     metadata: {

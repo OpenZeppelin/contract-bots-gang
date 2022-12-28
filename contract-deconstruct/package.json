@@ -29,7 +29,7 @@
     "@ethersproject/asm": "^5.6.1",
     "axios": "^0.27.2",
     "dotenv": "^16.0.1",
-    "forta-agent": "^0.1.8",
+    "forta-agent": "^0.1.15",
     "yasold": "git+https://git@github.com/ajlopez/Yasold#master"
   },
   "devDependencies": {

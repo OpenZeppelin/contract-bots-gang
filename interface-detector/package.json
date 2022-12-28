@@ -1,6 +1,6 @@
 {
   "name": "interface-detector",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "It detects new contracts interfaces",
   "chainIds": [
     1
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "axios": "^0.27.2",
-    "forta-agent": "^0.1.9",
+    "forta-agent": "^0.1.15",
     "graphql": "^16.5.0",
     "graphql-request": "^4.3.0"
   },
