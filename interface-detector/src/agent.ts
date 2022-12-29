@@ -770,7 +770,8 @@ const analyzeInterface = (events: any[], functions: any[]) => {
     extras: {},
   });
 
-  var { result, functionmatches } = isItInitializable(
+  var { result, functionmatches,  } = isItInitializable(
+    parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
@@ -778,7 +779,7 @@ const analyzeInterface = (events: any[], functions: any[]) => {
     type: "Initializable",
     status: result,
     fmatches: functionmatches,
-    ematches: null,
+    ematches: eventmatches,
     extras: {},
   });
 

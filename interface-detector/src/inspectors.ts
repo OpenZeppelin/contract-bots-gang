@@ -998,30 +998,30 @@ export function isItERC1155Receiver(events: any[], functions: any[]) {
 }
 
 export function isItERC1271(events: any[], functions: any[]) {
-    var functionsInInterface = ["isValidSignature(bytes32,bytes)"];
-  
-    var eventsInInterface: any[] = [];
-  
-    var { isItInterface, functionMatchesResults, eventMatchesResults } = match(
-      events,
-      functions,
-      functionsInInterface,
-      eventsInInterface
-    );
-  
-    if (isItInterface)
-      return {
-        result: true,
-        functionmatches: functionMatchesResults,
-        eventmatches: eventMatchesResults,
-      };
-    else
-      return {
-        result: false,
-        functionmatches: null,
-        eventmatches: null,
-      };
-  }
+  var functionsInInterface = ["isValidSignature(bytes32,bytes)"];
+
+  var eventsInInterface: any[] = [];
+
+  var { isItInterface, functionMatchesResults, eventMatchesResults } = match(
+    events,
+    functions,
+    functionsInInterface,
+    eventsInInterface
+  );
+
+  if (isItInterface)
+    return {
+      result: true,
+      functionmatches: functionMatchesResults,
+      eventmatches: eventMatchesResults,
+    };
+  else
+    return {
+      result: false,
+      functionmatches: null,
+      eventmatches: null,
+    };
+}
 
 export function isItERC1363(events: any[], functions: any[]) {
   var functionsInInterface = [
@@ -2053,7 +2053,23 @@ export function isItTransparentUpgradeableProxy(
     };
 }
 
-export function isItInitializable(functions: any[]) {
+export function isItInitializable(events: any[], functions: any[]) {
+  var eventsInInterface: any[] = ["Initialized(uint8)"];
+
+  var eventMatchesResults: any[] = [];
+  eventsInInterface.forEach((toBeMatched) => {
+    events.forEach((matches) => {
+      matches.texts.forEach((text: any) => {
+        if (toBeMatched === text)
+          eventMatchesResults.push({
+            text: toBeMatched,
+            hex: matches.hex,
+            confidence: (1 / matches.texts.length) * 100,
+          });
+      });
+    });
+  });
+
   var initializerFunctions: any[] = [];
   functions.forEach((element) => {
     element.texts.forEach((textArrayElement: string[]) => {
@@ -2066,11 +2082,12 @@ export function isItInitializable(functions: any[]) {
     });
   });
 
-  if (initializerFunctions.length > 0)
+
+  if (initializerFunctions.length > 0 && eventMatchesResults.length > 0)
     return {
       result: true,
       functionmatches: initializerFunctions,
-      eventmatches: null,
+      eventmatches: eventMatchesResults,
     };
   else
     return {
@@ -3526,5 +3543,3 @@ export function isItFxMessageProcessor(events: any[], functions: any[]) {
       eventmatches: null,
     };
 }
-
-
