@@ -108,7 +108,7 @@ export function isItOwnable2Step(events: any[], functions: any[]) {
     };
 }
 
-export function isItAccessControl(events: any[], functions: any[]) {
+export function isItIAccessControl(events: any[], functions: any[]) {
   var functionsInInterface = [
     "hasRole(bytes32,address)",
     "getRoleAdmin(bytes32)",
@@ -144,7 +144,7 @@ export function isItAccessControl(events: any[], functions: any[]) {
     };
 }
 
-export function isItAccessControlEnumerable(events: any[], functions: any[]) {
+export function isItIAccessControlEnumerable(events: any[], functions: any[]) {
   var functionsInInterface = [
     "getRoleMember(bytes32,uint256)",
     "getRoleMemberCount(bytes32)",
@@ -154,6 +154,89 @@ export function isItAccessControlEnumerable(events: any[], functions: any[]) {
     "grantRole(bytes32,address)",
     "revokeRole(bytes32,address)",
     "renounceRole(bytes32,address)",
+  ];
+
+  var eventsInInterface: any[] = [
+    // IAccessControl
+    "RoleRevoked(bytes32,address,address)",
+    "RoleGranted(bytes32,address,address)",
+    "RoleAdminChanged(bytes32,bytes32,bytes32)",
+  ];
+
+  var { isItInterface, functionMatchesResults, eventMatchesResults } = match(
+    events,
+    functions,
+    functionsInInterface,
+    eventsInInterface
+  );
+
+  if (isItInterface)
+    return {
+      result: true,
+      functionmatches: functionMatchesResults,
+      eventmatches: eventMatchesResults,
+    };
+  else
+    return {
+      result: false,
+      functionmatches: null,
+      eventmatches: null,
+    };
+}
+
+export function isItAccessControl(events: any[], functions: any[]) {
+  var functionsInInterface = [
+    // ERC165
+    "supportsInterface(bytes4)",
+    // IAccessControl
+    "hasRole(bytes32,address)",
+    "getRoleAdmin(bytes32)",
+    "grantRole(bytes32,address)",
+    "revokeRole(bytes32,address)",
+    "renounceRole(bytes32,address)",
+  ];
+
+  var eventsInInterface: any[] = [
+    // IAccessControl
+    "RoleRevoked(bytes32,address,address)",
+    "RoleGranted(bytes32,address,address)",
+    "RoleAdminChanged(bytes32,bytes32,bytes32)",
+  ];
+
+  var { isItInterface, functionMatchesResults, eventMatchesResults } = match(
+    events,
+    functions,
+    functionsInInterface,
+    eventsInInterface
+  );
+
+  if (isItInterface)
+    return {
+      result: true,
+      functionmatches: functionMatchesResults,
+      eventmatches: eventMatchesResults,
+    };
+  else
+    return {
+      result: false,
+      functionmatches: null,
+      eventmatches: null,
+    };
+}
+
+export function isItAccessControlEnumerable(events: any[], functions: any[]) {
+  var functionsInInterface = [
+    // ERC165
+    "supportsInterface(bytes4)",
+    // IAccessControl
+    "hasRole(bytes32,address)",
+    "getRoleAdmin(bytes32)",
+    "grantRole(bytes32,address)",
+    "revokeRole(bytes32,address)",
+    "renounceRole(bytes32,address)",
+    // IAccessControlEnumerable
+    "getRoleMember(bytes32,uint256)",
+    "getRoleMemberCount(bytes32)",
   ];
 
   var eventsInInterface: any[] = [
@@ -274,7 +357,7 @@ export function isItPaymentSplitter(events: any[], functions: any[]) {
 
 /****************** GOVERNANCE *******************************/
 
-export function isItGovernor(events: any[], functions: any[]) {
+export function isItIGovernor(events: any[], functions: any[]) {
   var functionsInInterface: any[] = [
     "name()",
     "version()",
@@ -301,6 +384,68 @@ export function isItGovernor(events: any[], functions: any[]) {
   ];
 
   var eventsInInterface = [
+    "ProposalCreated(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,string)",
+    "ProposalCanceled(uint256)",
+    "ProposalExecuted(uint256)",
+    "VoteCast(address,uint256,uint8,uint256,string)",
+    "VoteCastWithParams(address,uint256,uint8,uint256,string,bytes)",
+  ];
+
+  var { isItInterface, functionMatchesResults, eventMatchesResults } = match(
+    events,
+    functions,
+    functionsInInterface,
+    eventsInInterface
+  );
+
+  if (isItInterface)
+    return {
+      result: true,
+      functionmatches: functionMatchesResults,
+      eventmatches: eventMatchesResults,
+    };
+  else
+    return {
+      result: false,
+      functionmatches: null,
+      eventmatches: null,
+    };
+}
+
+export function isItGovernor(events: any[], functions: any[]) {
+  var functionsInInterface: any[] = [
+    // IGovernor
+    "name()",
+    "version()",
+    "COUNTING_MODE()",
+    "hashProposal(address[],int256[],bytes[],bytes32)",
+    "state(uint256)",
+    "proposalSnapshot(uint256)",
+    "proposalDeadline(uint256)",
+    "votingDelay()",
+    "votingPeriod()",
+    "quorum(uint256)",
+    "getVotes(address,uint256)",
+    "getVotesWithParams(address,uint256,bytes)",
+    "hasVoted(uint256,address)",
+    "propose(address[],uint256[],bytes[],string)",
+    "execute(address[],uint256[],bytes[],bytes32)",
+    "castVote(uint256,uint8)",
+    "castVoteWithReason(uint256,uint8,string)",
+    "castVoteWithReasonAndParams(uint256,uint8,string,bytes)",
+    "castVoteBySig(uint256,uint8,uint8,bytes32,bytes32)",
+    "castVoteWithReasonAndParamsBySig(uint256,uint8,string,bytes,uint8,bytes32,bytes32)",
+    // IERC165
+    "supportsInterface(bytes4)",
+    // IERC721Receiver
+    "onERC721Received(address,address,uint256,bytes)",
+    // IERC1155Receiver
+    "onERC1155Received(address,address,uint256,uint256,bytes)",
+    "onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)",
+  ];
+
+  var eventsInInterface = [
+    // IGovernor
     "ProposalCreated(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,string)",
     "ProposalCanceled(uint256)",
     "ProposalExecuted(uint256)",
@@ -395,7 +540,7 @@ export function isItTimelockController(events: any[], functions: any[]) {
 
 /****************** GOVERNANCE/COMPATIBILITY *******************************/
 
-export function isItGovernorCompatibilityBravo(
+export function isItIGovernorCompatibilityBravo(
   events: any[],
   functions: any[]
 ) {
@@ -463,15 +608,25 @@ export function isItGovernorCompatibilityBravo(
     };
 }
 
-/****************** GOVERNANCE/EXTENSIONS *******************************/
-
-export function isItGovernorCountingSimple(events: any[], functions: any[]) {
+export function isItGovernorCompatibilityBravo(
+  events: any[],
+  functions: any[]
+) {
   var functionsInInterface: any[] = [
-    "COUNTING_MODE()",
-    // 'hasVoted(uint256,address)',
-    "proposalVotes(uint256)",
+    // IGovernorTimelock
+    "timelock()",
+    "proposalEta(uint256)",
+    "queue(address[],uint256[],bytes[],bytes32)",
+    // IGovernorCompatibilityBravo
+    "quorumVotes()",
+    "proposals(uint256)",
+    "propose(address[],uint256[],string[],bytes[],string)",
+    "queue(uint256)",
+    "execute(uint256)",
+    "cancel(uint256)",
+    "getActions(uint256)",
+    "getReceipt(uint256,address)",
     // IGovernor
-    // 'receive()',
     "name()",
     "version()",
     "COUNTING_MODE()",
@@ -494,6 +649,80 @@ export function isItGovernorCountingSimple(events: any[], functions: any[]) {
     "castVoteWithReasonAndParamsBySig(uint256,uint8,string,bytes,uint8,bytes32,bytes32)",
     // IERC165
     "supportsInterface(bytes4)",
+    // IERC721Receiver
+    "onERC721Received(address,address,uint256,bytes)",
+    // IERC1155Receiver
+    "onERC1155Received(address,address,uint256,uint256,bytes)",
+    "onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)",
+  ];
+
+  var eventsInInterface = [
+    // IGovernorTimelock
+    "ProposalQueued(uint256,uint256)",
+    // IGovernor
+    "ProposalCreated(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,string)",
+    "ProposalCanceled(uint256)",
+    "ProposalExecuted(uint256)",
+    "VoteCast(address,uint256,uint8,uint256,string)",
+    "VoteCastWithParams(address,uint256,uint8,uint256,string,bytes)",
+  ];
+
+  var { isItInterface, functionMatchesResults, eventMatchesResults } = match(
+    events,
+    functions,
+    functionsInInterface,
+    eventsInInterface
+  );
+
+  if (isItInterface)
+    return {
+      result: true,
+      functionmatches: functionMatchesResults,
+      eventmatches: eventMatchesResults,
+    };
+  else
+    return {
+      result: false,
+      functionmatches: null,
+      eventmatches: null,
+    };
+}
+
+/****************** GOVERNANCE/EXTENSIONS *******************************/
+
+export function isItGovernorCountingSimple(events: any[], functions: any[]) {
+  var functionsInInterface: any[] = [
+    "COUNTING_MODE()",
+    // 'hasVoted(uint256,address)',
+    "proposalVotes(uint256)",
+    // IGovernor
+    "name()",
+    "version()",
+    "COUNTING_MODE()",
+    "hashProposal(address[],int256[],bytes[],bytes32)",
+    "state(uint256)",
+    "proposalSnapshot(uint256)",
+    "proposalDeadline(uint256)",
+    "votingDelay()",
+    "votingPeriod()",
+    "quorum(uint256)",
+    "getVotes(address,uint256)",
+    "getVotesWithParams(address,uint256,bytes)",
+    "hasVoted(uint256,address)",
+    "propose(address[],uint256[],bytes[],string)",
+    "execute(address[],uint256[],bytes[],bytes32)",
+    "castVote(uint256,uint8)",
+    "castVoteWithReason(uint256,uint8,string)",
+    "castVoteWithReasonAndParams(uint256,uint8,string,bytes)",
+    "castVoteBySig(uint256,uint8,uint8,bytes32,bytes32)",
+    "castVoteWithReasonAndParamsBySig(uint256,uint8,string,bytes,uint8,bytes32,bytes32)",
+    // IERC165
+    "supportsInterface(bytes4)",
+    // IERC721Receiver
+    "onERC721Received(address,address,uint256,bytes)",
+    // IERC1155Receiver
+    "onERC1155Received(address,address,uint256,uint256,bytes)",
+    "onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)",
   ];
 
   var eventsInInterface = [
@@ -532,7 +761,6 @@ export function isItGovernorPreventLateQuorum(events: any[], functions: any[]) {
     "lateQuorumVoteExtension()",
     "setLateQuorumVoteExtension(uint64)",
     // IGovernor
-    // 'receive()',
     "name()",
     "version()",
     "COUNTING_MODE()",
@@ -555,6 +783,11 @@ export function isItGovernorPreventLateQuorum(events: any[], functions: any[]) {
     "castVoteWithReasonAndParamsBySig(uint256,uint8,string,bytes,uint8,bytes32,bytes32)",
     // IERC165
     "supportsInterface(bytes4)",
+    // IERC721Receiver
+    "onERC721Received(address,address,uint256,bytes)",
+    // IERC1155Receiver
+    "onERC1155Received(address,address,uint256,uint256,bytes)",
+    "onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)",
   ];
 
   var eventsInInterface: any[] = [
@@ -598,7 +831,6 @@ export function isItGovernorSettings(events: any[], functions: any[]) {
     "setVotingPeriod(uint256)",
     "setProposalThreshold(uint256)",
     // IGovernor
-    // 'receive()',
     "name()",
     "version()",
     "COUNTING_MODE()",
@@ -621,6 +853,11 @@ export function isItGovernorSettings(events: any[], functions: any[]) {
     "castVoteWithReasonAndParamsBySig(uint256,uint8,string,bytes,uint8,bytes32,bytes32)",
     // IERC165
     "supportsInterface(bytes4)",
+    // IERC721Receiver
+    "onERC721Received(address,address,uint256,bytes)",
+    // IERC1155Receiver
+    "onERC1155Received(address,address,uint256,uint256,bytes)",
+    "onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)",
   ];
 
   var eventsInInterface: any[] = [
@@ -656,7 +893,7 @@ export function isItGovernorSettings(events: any[], functions: any[]) {
     };
 }
 
-export function isItGovernorTimelock(events: any[], functions: any[]) {
+export function isItIGovernorTimelock(events: any[], functions: any[]) {
   var functionsInInterface: any[] = [
     "timelock()",
     "proposalEta(uint256)",
@@ -717,20 +954,13 @@ export function isItGovernorTimelock(events: any[], functions: any[]) {
     };
 }
 
-export function isItGovernorTimelockCompound(events: any[], functions: any[]) {
+export function isItGovernorTimelock(events: any[], functions: any[]) {
   var functionsInInterface: any[] = [
-    // 'state(uint256)',
-    // 'timelock()',
-    // 'proposalEta(uint256)',
-    // 'queue(address[],uint256[],bytes[],bytes32)',
-    "__acceptAdmin()",
-    "updateTimelock(address)",
     // IGovernorTimelock
     "timelock()",
     "proposalEta(uint256)",
     "queue(address[],uint256[],bytes[],bytes32)",
     // IGovernor
-    // 'receive()',
     "name()",
     "version()",
     "COUNTING_MODE()",
@@ -753,9 +983,97 @@ export function isItGovernorTimelockCompound(events: any[], functions: any[]) {
     "castVoteWithReasonAndParamsBySig(uint256,uint8,string,bytes,uint8,bytes32,bytes32)",
     // IERC165
     "supportsInterface(bytes4)",
+    // IERC721Receiver
+    "onERC721Received(address,address,uint256,bytes)",
+    // IERC1155Receiver
+    "onERC1155Received(address,address,uint256,uint256,bytes)",
+    "onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)",
   ];
 
-  var eventsInInterface: any[] = ["TimelockChange(address,address)"];
+  var eventsInInterface: any[] = [
+    "ProposalQueued(uint256,uint256)",
+    // IGovernor
+    "ProposalCreated(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,string)",
+    "ProposalCanceled(uint256)",
+    "ProposalExecuted(uint256)",
+    "VoteCast(address,uint256,uint8,uint256,string)",
+    "VoteCastWithParams(address,uint256,uint8,uint256,string,bytes)",
+  ];
+
+  var { isItInterface, functionMatchesResults, eventMatchesResults } = match(
+    events,
+    functions,
+    functionsInInterface,
+    eventsInInterface
+  );
+
+  if (isItInterface)
+    return {
+      result: true,
+      functionmatches: functionMatchesResults,
+      eventmatches: eventMatchesResults,
+    };
+  else
+    return {
+      result: false,
+      functionmatches: null,
+      eventmatches: null,
+    };
+}
+
+export function isItGovernorTimelockCompound(events: any[], functions: any[]) {
+  var functionsInInterface: any[] = [
+    // 'state(uint256)',
+    // 'timelock()',
+    // 'proposalEta(uint256)',
+    // 'queue(address[],uint256[],bytes[],bytes32)',
+    "__acceptAdmin()",
+    "updateTimelock(address)",
+    // IGovernorTimelock
+    "timelock()",
+    "proposalEta(uint256)",
+    "queue(address[],uint256[],bytes[],bytes32)",
+    // IGovernor
+    "name()",
+    "version()",
+    "COUNTING_MODE()",
+    "hashProposal(address[],int256[],bytes[],bytes32)",
+    "state(uint256)",
+    "proposalSnapshot(uint256)",
+    "proposalDeadline(uint256)",
+    "votingDelay()",
+    "votingPeriod()",
+    "quorum(uint256)",
+    "getVotes(address,uint256)",
+    "getVotesWithParams(address,uint256,bytes)",
+    "hasVoted(uint256,address)",
+    "propose(address[],uint256[],bytes[],string)",
+    "execute(address[],uint256[],bytes[],bytes32)",
+    "castVote(uint256,uint8)",
+    "castVoteWithReason(uint256,uint8,string)",
+    "castVoteWithReasonAndParams(uint256,uint8,string,bytes)",
+    "castVoteBySig(uint256,uint8,uint8,bytes32,bytes32)",
+    "castVoteWithReasonAndParamsBySig(uint256,uint8,string,bytes,uint8,bytes32,bytes32)",
+    // IERC165
+    "supportsInterface(bytes4)",
+    // IERC721Receiver
+    "onERC721Received(address,address,uint256,bytes)",
+    // IERC1155Receiver
+    "onERC1155Received(address,address,uint256,uint256,bytes)",
+    "onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)",
+  ];
+
+  var eventsInInterface: any[] = [
+    "TimelockChange(address,address)",
+    // IGovernorTimelock
+    "ProposalQueued(uint256,uint256)",
+    // IGovernor
+    "ProposalCreated(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,string)",
+    "ProposalCanceled(uint256)",
+    "ProposalExecuted(uint256)",
+    "VoteCast(address,uint256,uint8,uint256,string)",
+    "VoteCastWithParams(address,uint256,uint8,uint256,string,bytes)",
+  ];
 
   var { isItInterface, functionMatchesResults, eventMatchesResults } = match(
     events,
@@ -789,7 +1107,6 @@ export function isItGovernorVotesQuorumFraction(
     "quorum(uint256)",
     "updateQuorumNumerator(uint256)",
     // IGovernor
-    // 'receive()',
     "name()",
     "version()",
     "COUNTING_MODE()",
@@ -812,6 +1129,11 @@ export function isItGovernorVotesQuorumFraction(
     "castVoteWithReasonAndParamsBySig(uint256,uint8,string,bytes,uint8,bytes32,bytes32)",
     // IERC165
     "supportsInterface(bytes4)",
+    // IERC721Receiver
+    "onERC721Received(address,address,uint256,bytes)",
+    // IERC1155Receiver
+    "onERC1155Received(address,address,uint256,uint256,bytes)",
+    "onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)",
   ];
 
   var eventsInInterface: any[] = [
@@ -845,7 +1167,7 @@ export function isItGovernorVotesQuorumFraction(
     };
 }
 
-export function isItVotes(events: any[], functions: any[]) {
+export function isItIVotes(events: any[], functions: any[]) {
   var functionsInInterface: any[] = [
     "getVotes(address)",
     "getPastVotes(address,uint256)",
@@ -883,7 +1205,7 @@ export function isItVotes(events: any[], functions: any[]) {
 
 /****************** INTERFACES *******************************/
 
-export function isItERC1155(events: any[], functions: any[]) {
+export function isItIERC1155(events: any[], functions: any[]) {
   var functionsInInterface = [
     "balanceOf(address,uint256)",
     "balanceOfBatch(address[],uint256[])",
@@ -923,7 +1245,7 @@ export function isItERC1155(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC1155MetadataURI(events: any[], functions: any[]) {
+export function isItIERC1155MetadataURI(events: any[], functions: any[]) {
   var functionsInInterface = [
     "uri(uint256)",
     // IERC1155
@@ -966,7 +1288,7 @@ export function isItERC1155MetadataURI(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC1155Receiver(events: any[], functions: any[]) {
+export function isItIERC1155Receiver(events: any[], functions: any[]) {
   var functionsInInterface = [
     "onERC1155Received(address,address,uint256,uint256,bytes)",
     "onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)",
@@ -997,7 +1319,7 @@ export function isItERC1155Receiver(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC1271(events: any[], functions: any[]) {
+export function isItIERC1271(events: any[], functions: any[]) {
   var functionsInInterface = ["isValidSignature(bytes32,bytes)"];
 
   var eventsInInterface: any[] = [];
@@ -1023,7 +1345,7 @@ export function isItERC1271(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC1363(events: any[], functions: any[]) {
+export function isItIERC1363(events: any[], functions: any[]) {
   var functionsInInterface = [
     "transferAndCall(address,uint256)",
     "transferAndCall(address,uint256,bytes)",
@@ -1069,7 +1391,7 @@ export function isItERC1363(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC1363Receiver(events: any[], functions: any[]) {
+export function isItIERC1363Receiver(events: any[], functions: any[]) {
   var functionsInInterface = [
     "onTransferReceived(address,address,uint256,bytes)",
   ];
@@ -1097,7 +1419,7 @@ export function isItERC1363Receiver(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC1363Spender(events: any[], functions: any[]) {
+export function isItIERC1363Spender(events: any[], functions: any[]) {
   var functionsInInterface = ["onApprovalReceived(address,uint256,bytes)"];
 
   var eventsInInterface: any[] = [];
@@ -1123,7 +1445,7 @@ export function isItERC1363Spender(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC165(events: any[], functions: any[]) {
+export function isItIERC165(events: any[], functions: any[]) {
   var functionsInInterface = ["supportsInterface(bytes4)"];
 
   var eventsInInterface: any[] = [];
@@ -1149,7 +1471,7 @@ export function isItERC165(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC1820Implementer(events: any[], functions: any[]) {
+export function isItIERC1820Implementer(events: any[], functions: any[]) {
   var functionsInInterface = ["canImplementInterfaceForAddress(bytes,address)"];
 
   var eventsInInterface: any[] = [];
@@ -1175,7 +1497,7 @@ export function isItERC1820Implementer(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC1820Registry(events: any[], functions: any[]) {
+export function isItIERC1820Registry(events: any[], functions: any[]) {
   var functionsInInterface = [
     "setManager(address,address)",
     "getManager(address)",
@@ -1213,7 +1535,7 @@ export function isItERC1820Registry(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC20(events: any[], functions: any[]) {
+export function isItIERC20(events: any[], functions: any[]) {
   var functionsInInterface = [
     "totalSupply()",
     "balanceOf(address)",
@@ -1249,7 +1571,7 @@ export function isItERC20(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC20Metadata(events: any[], functions: any[]) {
+export function isItIERC20Metadata(events: any[], functions: any[]) {
   var functionsInInterface = [
     "name()",
     "symbol()",
@@ -1290,7 +1612,7 @@ export function isItERC20Metadata(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC2309(events: any[], functions: any[]) {
+export function isItIERC2309(events: any[], functions: any[]) {
   var functionsInInterface: any[] = [];
 
   var eventsInInterface = [
@@ -1318,7 +1640,7 @@ export function isItERC2309(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC2612(events: any[], functions: any[]) {
+export function isItIERC2612(events: any[], functions: any[]) {
   var functionsInInterface: any[] = [
     // IERC20Permit
     "permit(address,address,uint256,uint256,uint8,bytes32,bytes32)",
@@ -1349,7 +1671,7 @@ export function isItERC2612(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC2981(events: any[], functions: any[]) {
+export function isItIERC2981(events: any[], functions: any[]) {
   var functionsInInterface = [
     "royaltyInfo(uint256,uint256)",
     // IERC165
@@ -1379,7 +1701,7 @@ export function isItERC2981(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC3156FlashBorrower(events: any[], functions: any[]) {
+export function isItIERC3156FlashBorrower(events: any[], functions: any[]) {
   var functionsInInterface = [
     "onFlashLoan(address,address,uint256,uint256,bytes)",
   ];
@@ -1407,7 +1729,7 @@ export function isItERC3156FlashBorrower(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC3156FlashLender(events: any[], functions: any[]) {
+export function isItIERC3156FlashLender(events: any[], functions: any[]) {
   var functionsInInterface = [
     "maxFlashLoan(address)",
     "flashFee(address,uint256)",
@@ -1437,7 +1759,7 @@ export function isItERC3156FlashLender(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC4626(events: any[], functions: any[]) {
+export function isItIERC4626(events: any[], functions: any[]) {
   var functionsInInterface = [
     "asset()",
     "totalAssets()",
@@ -1497,7 +1819,7 @@ export function isItERC4626(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC721(events: any[], functions: any[]) {
+export function isItIERC721(events: any[], functions: any[]) {
   var functionsInInterface = [
     "balanceOf(address)",
     "ownerOf(uint256)",
@@ -1540,7 +1862,7 @@ export function isItERC721(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC721Enumerable(events: any[], functions: any[]) {
+export function isItIERC721Enumerable(events: any[], functions: any[]) {
   var functionsInInterface = [
     "tokenOfOwnerByIndex(address,uint256)",
     "totalSupply()",
@@ -1588,7 +1910,7 @@ export function isItERC721Enumerable(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC721Metadata(events: any[], functions: any[]) {
+export function isItIERC721Metadata(events: any[], functions: any[]) {
   var functionsInInterface = [
     "name()",
     "symbol()",
@@ -1636,7 +1958,7 @@ export function isItERC721Metadata(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC721Receiver(events: any[], functions: any[]) {
+export function isItIERC721Receiver(events: any[], functions: any[]) {
   var functionsInInterface = [
     "onERC721Received(address,address,uint256,bytes)",
   ];
@@ -1664,7 +1986,7 @@ export function isItERC721Receiver(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC777(events: any[], functions: any[]) {
+export function isItIERC777(events: any[], functions: any[]) {
   var functionsInInterface = [
     "name()",
     "symbol()",
@@ -1710,7 +2032,7 @@ export function isItERC777(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC777Recipient(events: any[], functions: any[]) {
+export function isItIERC777Recipient(events: any[], functions: any[]) {
   var functionsInInterface = [
     "tokensReceived(address,address,address,uint256,bytes,bytes)",
   ];
@@ -1738,7 +2060,7 @@ export function isItERC777Recipient(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC777Sender(events: any[], functions: any[]) {
+export function isItIERC777Sender(events: any[], functions: any[]) {
   var functionsInInterface = [
     "tokensToSend(address,address,address,uint256,bytes,bytes)",
   ];
@@ -1766,7 +2088,7 @@ export function isItERC777Sender(events: any[], functions: any[]) {
     };
 }
 
-export function isItERC1822Proxiable(events: any[], functions: any[]) {
+export function isItIERC1822Proxiable(events: any[], functions: any[]) {
   var functionsInInterface = ["proxiableUUID()"];
 
   var eventsInInterface: any[] = [];
@@ -1911,7 +2233,7 @@ export function isItERC1967Upgrade(events: any[], functions: any[]) {
     };
 }
 
-export function isItBeacon(events: any[], functions: any[]) {
+export function isItIBeacon(events: any[], functions: any[]) {
   var functionsInInterface: any[] = ["implementation()"];
 
   var eventsInInterface: any[] = [];
@@ -2193,6 +2515,52 @@ export function isItPullPayment(events: any[], functions: any[]) {
 
 /****************** TOKENS *******************************/
 
+/****************** ERC1155 *******************************/
+
+export function isItERC1155(events: any[], functions: any[]) {
+  var functionsInInterface = [
+    // IERC1155MetadataURI
+    "uri(uint256)",
+    // IERC1155
+    "balanceOf(address,uint256)",
+    "balanceOfBatch(address[],uint256[])",
+    "setApprovalForAll(address,bool)",
+    "isApprovedForAll(address,address)",
+    "safeTransferFrom(address,address,uint256,uint256,bytes)",
+    "safeBatchTransferFrom(address,address,uint256[],uint256[],bytes)",
+    // IERC165
+    "supportsInterface(bytes4)",
+  ];
+
+  var eventsInInterface = [
+    // IERC1155
+    "TransferSingle(address,address,address,uint256,uint256)",
+    "TransferBatch(address,address,address,uint256[],uint256[])",
+    "ApprovalForAll(address,address,bool)",
+    "URI(string,uint256)",
+  ];
+
+  var { isItInterface, functionMatchesResults, eventMatchesResults } = match(
+    events,
+    functions,
+    functionsInInterface,
+    eventsInInterface
+  );
+
+  if (isItInterface)
+    return {
+      result: true,
+      functionmatches: functionMatchesResults,
+      eventmatches: eventMatchesResults,
+    };
+  else
+    return {
+      result: false,
+      functionmatches: null,
+      eventmatches: null,
+    };
+}
+
 /****************** ERC1155/EXTENSIONS *******************************/
 
 export function isItERC1155Burnable(events: any[], functions: any[]) {
@@ -2313,6 +2681,50 @@ export function isItERC1155Supply(events: any[], functions: any[]) {
     "TransferBatch(address,address,address,uint256[],uint256[])",
     "ApprovalForAll(address,address,bool)",
     "URI(string,uint256)",
+  ];
+
+  var { isItInterface, functionMatchesResults, eventMatchesResults } = match(
+    events,
+    functions,
+    functionsInInterface,
+    eventsInInterface
+  );
+
+  if (isItInterface)
+    return {
+      result: true,
+      functionmatches: functionMatchesResults,
+      eventmatches: eventMatchesResults,
+    };
+  else
+    return {
+      result: false,
+      functionmatches: null,
+      eventmatches: null,
+    };
+}
+
+/****************** ERC20 *******************************/
+
+export function isItERC20(events: any[], functions: any[]) {
+  var functionsInInterface = [
+    // IERC20Metadata
+    "name()",
+    "symbol()",
+    "decimals()",
+    // IERC20
+    "totalSupply()",
+    "balanceOf(address)",
+    "transfer(address,uint256)",
+    "allowance(address,address)",
+    "approve(address,uint256)",
+    "transferFrom(address,address,uint256)",
+  ];
+
+  var eventsInInterface = [
+    // IERC20
+    "Transfer(address,address,uint256)",
+    "Approval(address,address,uint256)",
   ];
 
   var { isItInterface, functionMatchesResults, eventMatchesResults } = match(
@@ -2498,6 +2910,52 @@ export function isItERC20Pausable(events: any[], functions: any[]) {
     // Pausable
     "Paused(address)",
     "Unpaused(address)",
+  ];
+
+  var { isItInterface, functionMatchesResults, eventMatchesResults } = match(
+    events,
+    functions,
+    functionsInInterface,
+    eventsInInterface
+  );
+
+  if (isItInterface)
+    return {
+      result: true,
+      functionmatches: functionMatchesResults,
+      eventmatches: eventMatchesResults,
+    };
+  else
+    return {
+      result: false,
+      functionmatches: null,
+      eventmatches: null,
+    };
+}
+
+export function isItERC20Permit(events: any[], functions: any[]) {
+  var functionsInInterface = [
+    // IERC20Metadata
+    "name()",
+    "symbol()",
+    "decimals()",
+    // IERC20
+    "totalSupply()",
+    "balanceOf(address)",
+    "transfer(address,uint256)",
+    "allowance(address,address)",
+    "approve(address,uint256)",
+    "transferFrom(address,address,uint256)",
+    // IERC20Permit
+    "permit(address,address,uint256,uint256,uint8,bytes32,bytes32)",
+    "nonces(address)",
+    "DOMAIN_SEPARATOR()",
+  ];
+
+  var eventsInInterface = [
+    // IERC20
+    "Transfer(address,address,uint256)",
+    "Approval(address,address,uint256)",
   ];
 
   var { isItInterface, functionMatchesResults, eventMatchesResults } = match(
@@ -2730,6 +3188,68 @@ export function isItERC20Wrapper(events: any[], functions: any[]) {
     };
 }
 
+export function isItERC4626(events: any[], functions: any[]) {
+  var functionsInInterface = [
+    // IERC4626
+    "asset()",
+    "totalAssets()",
+    "convertToShares(uint256)",
+    "convertToAssets(uint256)",
+    "maxDeposit(address)",
+    "previewDeposit(uint256)",
+    "deposit(uint256,address)",
+    "maxMint(address)",
+    "previewMint(uint256)",
+    "mint(uint256,address)",
+    "maxWithdraw(address)",
+    "previewWithdraw(uint256)",
+    "withdraw(uint256,address,address)",
+    "maxRedeem(address)",
+    "previewRedeem(uint256)",
+    "redeem(uint256,address,address)",
+    // IERC20Metadata
+    "name()",
+    "symbol()",
+    "decimals()",
+    // IERC20
+    "totalSupply()",
+    "balanceOf(address)",
+    "transfer(address,uint256)",
+    "allowance(address,address)",
+    "approve(address,uint256)",
+    "transferFrom(address,address,uint256)",
+  ];
+
+  var eventsInInterface = [
+    // IERC4626
+    "Deposit(address,address,uint256,uint256)",
+    "Withdraw(address,address,address,uint256,uint256)",
+    // IERC20
+    "Transfer(address,address,uint256)",
+    "Approval(address,address,uint256)",
+  ];
+
+  var { isItInterface, functionMatchesResults, eventMatchesResults } = match(
+    events,
+    functions,
+    functionsInInterface,
+    eventsInInterface
+  );
+
+  if (isItInterface)
+    return {
+      result: true,
+      functionmatches: functionMatchesResults,
+      eventmatches: eventMatchesResults,
+    };
+  else
+    return {
+      result: false,
+      functionmatches: null,
+      eventmatches: null,
+    };
+}
+
 export function isItTokenTimelock(events: any[], functions: any[]) {
   var functionsInInterface = [
     "token()",
@@ -2739,6 +3259,57 @@ export function isItTokenTimelock(events: any[], functions: any[]) {
   ];
 
   var eventsInInterface: any[] = [];
+
+  var { isItInterface, functionMatchesResults, eventMatchesResults } = match(
+    events,
+    functions,
+    functionsInInterface,
+    eventsInInterface
+  );
+
+  if (isItInterface)
+    return {
+      result: true,
+      functionmatches: functionMatchesResults,
+      eventmatches: eventMatchesResults,
+    };
+  else
+    return {
+      result: false,
+      functionmatches: null,
+      eventmatches: null,
+    };
+}
+
+/****************** ERC721 *******************************/
+
+export function isItERC721(events: any[], functions: any[]) {
+  var functionsInInterface = [
+    // IERC721Metadata
+    "name()",
+    "symbol()",
+    "tokenURI(uint256)",
+    // IERC721
+    "balanceOf(address)",
+    "ownerOf(uint256)",
+    "allowance(address,address)",
+    "approve(address,uint256)",
+    "setApprovalForAll(address,bool)",
+    "getApproved(uint256)",
+    "isApprovedForAll(address,address)",
+    "transferFrom(address,address,uint256)",
+    "safeTransferFrom(address,address,uint256)",
+    "safeTransferFrom(address,address,uint256,bytes)",
+    // IERC165
+    "supportsInterface(bytes4)",
+  ];
+
+  var eventsInInterface = [
+    // IERC721
+    "Transfer(address,address,uint256)",
+    "Approval(address,address,uint256)",
+    "ApprovalForAll(address,address,bool)",
+  ];
 
   var { isItInterface, functionMatchesResults, eventMatchesResults } = match(
     events,
@@ -2841,6 +3412,59 @@ export function isItERC721Consecutive(events: any[], functions: any[]) {
     "ApprovalForAll(address,address,bool)",
     // IERC2309
     "ConsecutiveTransfer(uint256,uint256,address,address)",
+  ];
+
+  var { isItInterface, functionMatchesResults, eventMatchesResults } = match(
+    events,
+    functions,
+    functionsInInterface,
+    eventsInInterface
+  );
+
+  if (isItInterface)
+    return {
+      result: true,
+      functionmatches: functionMatchesResults,
+      eventmatches: eventMatchesResults,
+    };
+  else
+    return {
+      result: false,
+      functionmatches: null,
+      eventmatches: null,
+    };
+}
+
+export function isItERC721Enumerable(events: any[], functions: any[]) {
+  var functionsInInterface = [
+    // IERC721Enumerable
+    "tokenOfOwnerByIndex(address,uint256)",
+    "totalSupply()",
+    "tokenByIndex(uint256)",
+    // IERC721Metadata
+    "name()",
+    "symbol()",
+    "tokenURI(uint256)",
+    // IERC721
+    "balanceOf(address)",
+    "ownerOf(uint256)",
+    "allowance(address,address)",
+    "approve(address,uint256)",
+    "setApprovalForAll(address,bool)",
+    "getApproved(uint256)",
+    "isApprovedForAll(address,address)",
+    "transferFrom(address,address,uint256)",
+    "safeTransferFrom(address,address,uint256)",
+    "safeTransferFrom(address,address,uint256,bytes)",
+    // IERC165
+    "supportsInterface(bytes4)",
+  ];
+
+  var eventsInInterface = [
+    // IERC721
+    "Transfer(address,address,uint256)",
+    "Approval(address,address,uint256)",
+    "ApprovalForAll(address,address,bool)",
   ];
 
   var { isItInterface, functionMatchesResults, eventMatchesResults } = match(
@@ -3028,6 +3652,66 @@ export function isItERC721Votes(events: any[], functions: any[]) {
     };
 }
 
+/****************** ERC777 *******************************/
+
+export function isItERC777(events: any[], functions: any[]) {
+  var functionsInInterface = [
+    // IERC777
+    "name()",
+    "symbol()",
+    "granularity()",
+    "totalSupply()",
+    "balanceOf(address)",
+    "send(address,uint256,bytes)",
+    "burn(uint256,bytes)",
+    "isOperatorFor(address,address)",
+    "authorizeOperator(address)",
+    "revokeOperator(address)",
+    "defaultOperators()",
+    "operatorSend(address,address,uint256,bytes,bytes)",
+    "operatorBurn(address,uint256,bytes,bytes)",
+    // IERC20
+    "totalSupply()",
+    "balanceOf(address)",
+    "transfer(address,uint256)",
+    "allowance(address,address)",
+    "approve(address,uint256)",
+    "transferFrom(address,address,uint256)",
+  ];
+
+  var eventsInInterface = [
+    // IERC777
+    "Minted(address,address,uint256,bytes,bytes)",
+    "Burned(address,address,uint256,bytes,bytes)",
+    "AuthorizedOperator(address,address)",
+    "RevokedOperator(address,address)",
+    "Sent(address,address,address,uint256,bytes,bytes)",
+    // IERC20
+    "Transfer(address,address,uint256)",
+    "Approval(address,address,uint256)",
+  ];
+
+  var { isItInterface, functionMatchesResults, eventMatchesResults } = match(
+    events,
+    functions,
+    functionsInInterface,
+    eventsInInterface
+  );
+
+  if (isItInterface)
+    return {
+      result: true,
+      functionmatches: functionMatchesResults,
+      eventmatches: eventMatchesResults,
+    };
+  else
+    return {
+      result: false,
+      functionmatches: null,
+      eventmatches: null,
+    };
+}
+
 /****************** UTILS *******************************/
 
 /****************** UTILS/ESCROW *******************************/
@@ -3171,7 +3855,7 @@ export function isItRefundEscrow(events: any[], functions: any[]) {
 
 /****************** VENDOR/AMB *******************************/
 
-export function isItAMB(events: any[], functions: any[]) {
+export function isItIAMB(events: any[], functions: any[]) {
   var functionsInInterface = [
     "messageSender()",
     "maxGasPerTx()",
@@ -3218,7 +3902,7 @@ export function isItAMB(events: any[], functions: any[]) {
 
 /****************** VENDOR/ARBITRUM *******************************/
 
-export function isItArbSys(events: any[], functions: any[]) {
+export function isItIArbSys(events: any[], functions: any[]) {
   var functionsInInterface = [
     "arbBlockNumber()",
     "arbBlockHash(uint256)",
@@ -3261,7 +3945,7 @@ export function isItArbSys(events: any[], functions: any[]) {
     };
 }
 
-export function isItBridge(events: any[], functions: any[]) {
+export function isItIBridge(events: any[], functions: any[]) {
   var functionsInInterface = [
     "allowedDelayedInboxList(uint256)",
     "allowedOutboxList(uint256)",
@@ -3314,7 +3998,7 @@ export function isItBridge(events: any[], functions: any[]) {
     };
 }
 
-export function isItDelayedMessageProvider(events: any[], functions: any[]) {
+export function isItIDelayedMessageProvider(events: any[], functions: any[]) {
   var functionsInInterface: any[] = [];
 
   var eventsInInterface = [
@@ -3343,7 +4027,7 @@ export function isItDelayedMessageProvider(events: any[], functions: any[]) {
     };
 }
 
-export function isItInbox(events: any[], functions: any[]) {
+export function isItIInbox(events: any[], functions: any[]) {
   var functionsInInterface = [
     "bridge()",
     "sequencerInbox()",
@@ -3386,7 +4070,7 @@ export function isItInbox(events: any[], functions: any[]) {
     };
 }
 
-export function isItOutbox(events: any[], functions: any[]) {
+export function isItIOutbox(events: any[], functions: any[]) {
   var functionsInInterface = [
     "rollup()",
     "bridge()",
@@ -3434,7 +4118,7 @@ export function isItOutbox(events: any[], functions: any[]) {
 
 /****************** VENDOR/COMPOUND *******************************/
 
-export function isItCompoundTimelock(events: any[], functions: any[]) {
+export function isItICompoundTimelock(events: any[], functions: any[]) {
   var functionsInInterface = [
     "GRACE_PERIOD()",
     "MINIMUM_DELAY()",
@@ -3483,7 +4167,7 @@ export function isItCompoundTimelock(events: any[], functions: any[]) {
 
 /****************** VENDOR/OPTIMISM *******************************/
 
-export function isItCrossDomainMessenger(events: any[], functions: any[]) {
+export function isItICrossDomainMessenger(events: any[], functions: any[]) {
   var functionsInInterface = [
     "xDomainMessageSender()",
     "sendMessage(address,bytes,uint32)",
@@ -3518,7 +4202,7 @@ export function isItCrossDomainMessenger(events: any[], functions: any[]) {
 
 /****************** VENDOR/POLYGON *******************************/
 
-export function isItFxMessageProcessor(events: any[], functions: any[]) {
+export function isItIFxMessageProcessor(events: any[], functions: any[]) {
   var functionsInInterface = ["processMessageFromRoot(uint256,address,bytes)"];
 
   var eventsInInterface: any[] = [];

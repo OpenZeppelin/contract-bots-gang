@@ -14,8 +14,11 @@ import { condensateResults, parseData } from "./utils";
 import {
   isItOwnable,
   isItOwnable2Step,
+  isItIAccessControl,
+  isItIAccessControlEnumerable,
   isItAccessControl,
   isItAccessControlEnumerable,
+  isItIERC20,
   isItERC20,
   isItERC20Burnable,
   isItERC20Capped,
@@ -24,22 +27,25 @@ import {
   isItERC20Votes,
   isItERC20VotesComp,
   isItERC20Wrapper,
+  isItERC20Permit,
+  isItIERC4626,
   isItERC4626,
-  isItERC20Metadata,
+  isItIERC20Metadata,
   isItTokenTimelock,
-  isItERC721,
-  isItERC721Receiver,
+  isItIERC721,
+  isItIERC721Receiver,
   isItERC721Burnable,
-  isItERC721Enumerable,
-  isItERC721Metadata,
+  isItIERC721Enumerable,
+  isItIERC721Metadata,
+  isItIERC1155,
+  isItIERC1155Receiver,
   isItERC1155,
-  isItERC1155Receiver,
   isItERC1155Burnable,
   isItERC1155Supply,
-  isItERC1155MetadataURI,
-  isItERC777,
-  isItERC777Recipient,
-  isItERC777Sender,
+  isItIERC1155MetadataURI,
+  isItIERC777,
+  isItIERC777Recipient,
+  isItIERC777Sender,
   isItProxy,
   isItUUPSUpgradeable,
   isItERC1967Upgrade,
@@ -48,49 +54,54 @@ import {
   isItInitializable,
   isItPausable,
   isItPullPayment,
+  isItIGovernor,
   isItGovernor,
+  isItIGovernorCompatibilityBravo,
   isItGovernorCompatibilityBravo,
   isItGovernorCountingSimple,
   isItGovernorPreventLateQuorum,
   isItGovernorSettings,
   isItGovernorTimelockCompound,
   isItGovernorVotesQuorumFraction,
+  isItIGovernorTimelock,
   isItGovernorTimelock,
   isItTimelockController,
-  isItVotes,
+  isItIVotes,
   isItVestingWallet,
   isItPaymentSplitter,
-  isItERC165,
-  isItERC1820Implementer,
-  isItERC1820Registry,
+  isItIERC165,
+  isItIERC1820Implementer,
+  isItIERC1820Registry,
   isItEscrow,
   isItConditionalEscrow,
   isItRefundEscrow,
   isItERC2771Context,
   isItMinimalForwarder,
-  isItAMB,
-  isItArbSys,
-  isItBridge,
-  isItDelayedMessageProvider,
-  isItInbox,
-  isItOutbox,
-  isItCompoundTimelock,
-  isItCrossDomainMessenger,
-  isItFxMessageProcessor,
-  isItERC1271,
-  isItERC1363,
-  isItERC1363Receiver,
-  isItERC1363Spender,
-  isItERC2309,
-  isItERC2612,
-  isItERC2981,
-  isItERC3156FlashBorrower,
-  isItERC3156FlashLender,
-  isItERC1822Proxiable,
-  isItBeacon,
+  isItIAMB,
+  isItIArbSys,
+  isItIBridge,
+  isItIDelayedMessageProvider,
+  isItIInbox,
+  isItIOutbox,
+  isItICompoundTimelock,
+  isItICrossDomainMessenger,
+  isItIFxMessageProcessor,
+  isItIERC1271,
+  isItIERC1363,
+  isItIERC1363Receiver,
+  isItIERC1363Spender,
+  isItIERC2309,
+  isItIERC2612,
+  isItIERC2981,
+  isItIERC3156FlashBorrower,
+  isItIERC3156FlashLender,
+  isItIERC1822Proxiable,
+  isItIBeacon,
   isItUpgradeableBeacon,
   isItERC1155Pausable,
   isItERC20Pausable,
+  isItERC721,
+  isItERC721Enumerable,
   isItERC721Consecutive,
   isItERC721Pausable,
   isItERC721Royalty,
@@ -123,6 +134,32 @@ const analyzeInterface = (events: any[], functions: any[]) => {
 
   observationResults.push({
     type: "Ownable2Step",
+    status: result,
+    fmatches: functionmatches,
+    ematches: eventmatches,
+    extras: {},
+  });
+
+  var { result, functionmatches, eventmatches } = isItIAccessControl(
+    parsedData.eventsGroupedByHex,
+    parsedData.functionsGroupedByHex
+  );
+
+  observationResults.push({
+    type: "IAccessControl",
+    status: result,
+    fmatches: functionmatches,
+    ematches: eventmatches,
+    extras: {},
+  });
+
+  var { result, functionmatches, eventmatches } = isItIAccessControlEnumerable(
+    parsedData.eventsGroupedByHex,
+    parsedData.functionsGroupedByHex
+  );
+
+  observationResults.push({
+    type: "IAccessControlEnumerable",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
@@ -185,6 +222,19 @@ const analyzeInterface = (events: any[], functions: any[]) => {
 
   /****************** GOVERNANCE *******************************/
 
+  var { result, functionmatches, eventmatches } = isItIGovernor(
+    parsedData.eventsGroupedByHex,
+    parsedData.functionsGroupedByHex
+  );
+
+  observationResults.push({
+    type: "IGovernor",
+    status: result,
+    fmatches: functionmatches,
+    ematches: eventmatches,
+    extras: {},
+  });
+
   var { result, functionmatches, eventmatches } = isItGovernor(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
@@ -212,6 +262,20 @@ const analyzeInterface = (events: any[], functions: any[]) => {
   });
 
   /****************** GOVERNANCE/COMPATIBILITY *******************************/
+
+  var { result, functionmatches, eventmatches } =
+    isItIGovernorCompatibilityBravo(
+      parsedData.eventsGroupedByHex,
+      parsedData.functionsGroupedByHex
+    );
+
+  observationResults.push({
+    type: "IGovernorCompatibilityBravo",
+    status: result,
+    fmatches: functionmatches,
+    ematches: eventmatches,
+    extras: {},
+  });
 
   var { result, functionmatches, eventmatches } =
     isItGovernorCompatibilityBravo(
@@ -268,6 +332,19 @@ const analyzeInterface = (events: any[], functions: any[]) => {
     extras: {},
   });
 
+  var { result, functionmatches, eventmatches } = isItIGovernorTimelock(
+    parsedData.eventsGroupedByHex,
+    parsedData.functionsGroupedByHex
+  );
+
+  observationResults.push({
+    type: "IGovernorTimelock",
+    status: result,
+    fmatches: functionmatches,
+    ematches: eventmatches,
+    extras: {},
+  });
+
   var { result, functionmatches, eventmatches } = isItGovernorTimelock(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
@@ -308,13 +385,13 @@ const analyzeInterface = (events: any[], functions: any[]) => {
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItVotes(
+  var { result, functionmatches, eventmatches } = isItIVotes(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "Votes",
+    type: "IVotes",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
@@ -323,338 +400,338 @@ const analyzeInterface = (events: any[], functions: any[]) => {
 
   /****************** INTERFACES *******************************/
 
-  var { result, functionmatches, eventmatches } = isItERC1155(
+  var { result, functionmatches, eventmatches } = isItIERC1155(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC1155",
+    type: "IERC1155",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC1155MetadataURI(
+  var { result, functionmatches, eventmatches } = isItIERC1155MetadataURI(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC1155MetadataURI",
+    type: "IERC1155MetadataURI",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC1155Receiver(
+  var { result, functionmatches, eventmatches } = isItIERC1155Receiver(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC1155Receiver",
+    type: "IERC1155Receiver",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC1271(
+  var { result, functionmatches, eventmatches } = isItIERC1271(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC1271",
+    type: "IERC1271",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC1363(
+  var { result, functionmatches, eventmatches } = isItIERC1363(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC1363",
+    type: "IERC1363",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC1363Receiver(
+  var { result, functionmatches, eventmatches } = isItIERC1363Receiver(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC1363Receiver",
+    type: "IERC1363Receiver",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC1363Spender(
+  var { result, functionmatches, eventmatches } = isItIERC1363Spender(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC1363Spender",
+    type: "IERC1363Spender",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC165(
+  var { result, functionmatches, eventmatches } = isItIERC165(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC165",
+    type: "IERC165",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC1820Implementer(
+  var { result, functionmatches, eventmatches } = isItIERC1820Implementer(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC1820Implementer",
+    type: "IERC1820Implementer",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC1820Registry(
+  var { result, functionmatches, eventmatches } = isItIERC1820Registry(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC1820Registry",
+    type: "IERC1820Registry",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC20(
+  var { result, functionmatches, eventmatches } = isItIERC20(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC20",
+    type: "IERC20",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC20Metadata(
+  var { result, functionmatches, eventmatches } = isItIERC20Metadata(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC20Metadata",
+    type: "IERC20Metadata",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC2309(
+  var { result, functionmatches, eventmatches } = isItIERC2309(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC2309",
+    type: "IERC2309",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC2612(
+  var { result, functionmatches, eventmatches } = isItIERC2612(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC2612",
+    type: "IERC2612",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC2981(
+  var { result, functionmatches, eventmatches } = isItIERC2981(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC2981",
+    type: "IERC2981",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC3156FlashBorrower(
+  var { result, functionmatches, eventmatches } = isItIERC3156FlashBorrower(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC3156FlashBorrower",
+    type: "IERC3156FlashBorrower",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC3156FlashLender(
+  var { result, functionmatches, eventmatches } = isItIERC3156FlashLender(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC3156FlashLender",
+    type: "IERC3156FlashLender",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC4626(
+  var { result, functionmatches, eventmatches } = isItIERC4626(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC4626",
+    type: "IERC4626",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC721(
+  var { result, functionmatches, eventmatches } = isItIERC721(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC721",
+    type: "IERC721",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC721Enumerable(
+  var { result, functionmatches, eventmatches } = isItIERC721Enumerable(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC721Enumerable",
+    type: "IERC721Enumerable",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC721Metadata(
+  var { result, functionmatches, eventmatches } = isItIERC721Metadata(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC721Metadata",
+    type: "IERC721Metadata",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC721Receiver(
+  var { result, functionmatches, eventmatches } = isItIERC721Receiver(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC721Receiver",
+    type: "IERC721Receiver",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC777(
+  var { result, functionmatches, eventmatches } = isItIERC777(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC777",
+    type: "IERC777",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC777Recipient(
+  var { result, functionmatches, eventmatches } = isItIERC777Recipient(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC777Recipient",
+    type: "IERC777Recipient",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC777Sender(
+  var { result, functionmatches, eventmatches } = isItIERC777Sender(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC777Sender",
+    type: "IERC777Sender",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItERC1822Proxiable(
+  var { result, functionmatches, eventmatches } = isItIERC1822Proxiable(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ERC1822Proxiable",
+    type: "IERC1822Proxiable",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
@@ -717,13 +794,13 @@ const analyzeInterface = (events: any[], functions: any[]) => {
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItBeacon(
+  var { result, functionmatches, eventmatches } = isItIBeacon(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "Beacon",
+    type: "IBeacon",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
@@ -826,6 +903,21 @@ const analyzeInterface = (events: any[], functions: any[]) => {
 
   /****************** TOKEN *******************************/
 
+  /****************** ERC1155 *******************************/
+
+  var { result, functionmatches, eventmatches } = isItERC1155(
+    parsedData.eventsGroupedByHex,
+    parsedData.functionsGroupedByHex
+  );
+
+  observationResults.push({
+    type: "ERC1155",
+    status: result,
+    fmatches: functionmatches,
+    ematches: eventmatches,
+    extras: {},
+  });
+
   /****************** ERC1155/EXTENSIONS *******************************/
 
   var { result, functionmatches, eventmatches } = isItERC1155Burnable(
@@ -867,13 +959,30 @@ const analyzeInterface = (events: any[], functions: any[]) => {
     extras: {},
   });
 
+  /****************** ERC20 *******************************/
+
+  var { result, functionmatches, eventmatches } = isItERC20(
+    parsedData.eventsGroupedByHex,
+    parsedData.functionsGroupedByHex
+  );
+
+  
+  observationResults.push({
+    type: "ERC20",
+    status: result,
+    fmatches: functionmatches,
+    ematches: eventmatches,
+    extras: {},
+  });
+
+  /****************** ERC20/EXTENSIONS *******************************/
+
   var { result, functionmatches, eventmatches } = isItERC20Burnable(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
-  /****************** ERC20/EXTENSIONS *******************************/
-
+  
   observationResults.push({
     type: "ERC20Burnable",
     status: result,
@@ -915,6 +1024,19 @@ const analyzeInterface = (events: any[], functions: any[]) => {
 
   observationResults.push({
     type: "ERC20Pausable",
+    status: result,
+    fmatches: functionmatches,
+    ematches: eventmatches,
+    extras: {},
+  });
+
+  var { result, functionmatches, eventmatches } = isItERC20Permit(
+    parsedData.eventsGroupedByHex,
+    parsedData.functionsGroupedByHex
+  );
+
+  observationResults.push({
+    type: "ERC20Permit",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
@@ -973,6 +1095,19 @@ const analyzeInterface = (events: any[], functions: any[]) => {
     extras: {},
   });
 
+  var { result, functionmatches, eventmatches } = isItERC4626(
+    parsedData.eventsGroupedByHex,
+    parsedData.functionsGroupedByHex
+  );
+
+  observationResults.push({
+    type: "ERC4626",
+    status: result,
+    fmatches: functionmatches,
+    ematches: eventmatches,
+    extras: {},
+  });
+
   var { result, functionmatches, eventmatches } = isItTokenTimelock(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
@@ -980,6 +1115,21 @@ const analyzeInterface = (events: any[], functions: any[]) => {
 
   observationResults.push({
     type: "TokenTimelock",
+    status: result,
+    fmatches: functionmatches,
+    ematches: eventmatches,
+    extras: {},
+  });
+
+  /****************** ERC721 *******************************/
+
+  var { result, functionmatches, eventmatches } = isItERC721(
+    parsedData.eventsGroupedByHex,
+    parsedData.functionsGroupedByHex
+  );
+
+  observationResults.push({
+    type: "ERC721",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
@@ -1008,6 +1158,19 @@ const analyzeInterface = (events: any[], functions: any[]) => {
 
   observationResults.push({
     type: "ERC721Consecutive",
+    status: result,
+    fmatches: functionmatches,
+    ematches: eventmatches,
+    extras: {},
+  });
+
+  var { result, functionmatches, eventmatches } = isItERC721Enumerable(
+    parsedData.eventsGroupedByHex,
+    parsedData.functionsGroupedByHex
+  );
+
+  observationResults.push({
+    type: "ERC721Enumerable",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
@@ -1100,13 +1263,13 @@ const analyzeInterface = (events: any[], functions: any[]) => {
 
   /****************** VENDOR/AMB *******************************/
 
-  var { result, functionmatches, eventmatches } = isItAMB(
+  var { result, functionmatches, eventmatches } = isItIAMB(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "AMB",
+    type: "IAMB",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
@@ -1115,65 +1278,65 @@ const analyzeInterface = (events: any[], functions: any[]) => {
 
   /****************** VENDOR/ARBITRUM *******************************/
 
-  var { result, functionmatches, eventmatches } = isItArbSys(
+  var { result, functionmatches, eventmatches } = isItIArbSys(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "ArbSys",
+    type: "IArbSys",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItBridge(
+  var { result, functionmatches, eventmatches } = isItIBridge(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "Bridge",
+    type: "IBridge",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItDelayedMessageProvider(
+  var { result, functionmatches, eventmatches } = isItIDelayedMessageProvider(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "DelayedMessageProvider",
+    type: "IDelayedMessageProvider",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItInbox(
+  var { result, functionmatches, eventmatches } = isItIInbox(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "Inbox",
+    type: "IInbox",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
     extras: {},
   });
 
-  var { result, functionmatches, eventmatches } = isItOutbox(
+  var { result, functionmatches, eventmatches } = isItIOutbox(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "Outbox",
+    type: "IOutbox",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
@@ -1182,13 +1345,13 @@ const analyzeInterface = (events: any[], functions: any[]) => {
 
   /****************** VENDOR/COMPOUND *******************************/
 
-  var { result, functionmatches, eventmatches } = isItCompoundTimelock(
+  var { result, functionmatches, eventmatches } = isItICompoundTimelock(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "CompoundTimelock",
+    type: "ICompoundTimelock",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
@@ -1197,13 +1360,13 @@ const analyzeInterface = (events: any[], functions: any[]) => {
 
   /****************** VENDOR/OPTIMISM *******************************/
 
-  var { result, functionmatches, eventmatches } = isItCrossDomainMessenger(
+  var { result, functionmatches, eventmatches } = isItICrossDomainMessenger(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "CrossDomainMessenger",
+    type: "ICrossDomainMessenger",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
@@ -1212,13 +1375,13 @@ const analyzeInterface = (events: any[], functions: any[]) => {
 
   /****************** VENDOR/POLYGON *******************************/
 
-  var { result, functionmatches, eventmatches } = isItFxMessageProcessor(
+  var { result, functionmatches, eventmatches } = isItIFxMessageProcessor(
     parsedData.eventsGroupedByHex,
     parsedData.functionsGroupedByHex
   );
 
   observationResults.push({
-    type: "FxMessageProcessor",
+    type: "IFxMessageProcessor",
     status: result,
     fmatches: functionmatches,
     ematches: eventmatches,
