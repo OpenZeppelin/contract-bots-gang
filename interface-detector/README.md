@@ -115,9 +115,9 @@ It detects interfaces:
 
 ```
 {
-  "name": `ID-XXX`, // XXX is the timestamp
+  "name": `Interface detected`,
   "description": `Contract {contractAddress} adheres to some interfaces`
-  "alertId": `ID-XXX`, // XXX is the timestamp
+  "alertId": `ID`,
   "protocol": "ethereum",
   "severity": "Info",
   "type": "Info",
