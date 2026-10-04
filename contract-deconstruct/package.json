@@ -27,9 +27,9 @@
   },
   "dependencies": {
     "@ethersproject/asm": "^5.6.1",
-    "axios": "^0.27.2",
+    "axios": "^1.20.0",
     "dotenv": "^16.0.1",
-    "forta-agent": "^0.1.15",
+    "forta-agent": "^0.1.48",
     "yasold": "git+https://git@github.com/ajlopez/Yasold#master"
   },
   "devDependencies": {
